@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Chance.API.Models;
 
-public class User
+public class User //TODO Add Data Annotations to all models
 {
     [Key]
     public int Id { get; set; }
