@@ -8,13 +8,34 @@ public class Skill
     [Key]
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "Skill is required")]
-    public required string Title { get; set; }
+    [Required]
+    public SkillType SkillType { get; set; }
 
     [JsonIgnore]
     public List<Background> Backgrounds { get; } = [];
 
     [JsonIgnore]
     public List<Class> Classes { get; } = [];
+}
 
+public enum SkillType
+{
+    Acrobatics,
+    AnimalHandling,
+    Arcana,
+    Athletics,
+    Deception,
+    History,
+    Insight,
+    Intimidation,
+    Investigation,
+    Medicine,
+    Nature,
+    Perception,
+    Performance,
+    Persuasion,
+    Religion,
+    SleightOfHand,
+    Stealth,
+    Survival
 }
