@@ -25,14 +25,14 @@ namespace Chance.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Class>>> GetClass()
         {
-            return await _context.Class.ToListAsync();
+            return await _context.Classes.ToListAsync();
         }
 
         // GET: api/Classes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Class>> GetClass(int id)
         {
-            var @class = await _context.Class.FindAsync(id);
+            var @class = await _context.Classes.FindAsync(id);
 
             if (@class == null)
             {
@@ -78,7 +78,7 @@ namespace Chance.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Class>> PostClass(Class @class)
         {
-            _context.Class.Add(@class);
+            _context.Classes.Add(@class);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetClass", new { id = @class.Id }, @class);
@@ -88,13 +88,13 @@ namespace Chance.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClass(int id)
         {
-            var @class = await _context.Class.FindAsync(id);
+            var @class = await _context.Classes.FindAsync(id);
             if (@class == null)
             {
                 return NotFound();
             }
 
-            _context.Class.Remove(@class);
+            _context.Classes.Remove(@class);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Chance.API.Controllers
 
         private bool ClassExists(int id)
         {
-            return _context.Class.Any(e => e.Id == id);
+            return _context.Classes.Any(e => e.Id == id);
         }
     }
 }

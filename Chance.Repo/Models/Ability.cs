@@ -18,7 +18,7 @@ public class Ability
 
 }
 
-public enum AbilityType //TODO Is this the best way to do this?
+public enum AbilityType
 {
     Strength,
     Dexterity,

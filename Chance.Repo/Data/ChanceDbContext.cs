@@ -11,25 +11,20 @@ public class ChanceDbContext : DbContext
 
     public DbSet<Skill> Skills { get; set; }
 
-    public DbSet<Ability> Ability { get; set; } = default!;
+    public DbSet<Ability> Abilities { get; set; }
 
-    public DbSet<Background> Background { get; set; } = default!;
+    public DbSet<Background> Backgrounds { get; set; }
 
-    public DbSet<Character> Character { get; set; } = default!;
+    public DbSet<Character> Characters { get; set; }
 
-    public DbSet<Class> Class { get; set; } = default!;
+    public DbSet<Class> Classes { get; set; }
 
-    public DbSet<Feature> Feature { get; set; } = default!;
+    public DbSet<Feature> Features { get; set; }
 
-    public DbSet<Race> Race { get; set; } = default!;
+    public DbSet<Race> Races { get; set; }
 
-    public DbSet<Subrace> Subrace { get; set; } = default!;
+    public DbSet<Subrace> Subraces { get; set; }
 
-    public DbSet<User> User { get; set; } = default!;
-
-
-    // Define DbSet properties for entities
-    // Example:
-    // public DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; set; }
 }
 

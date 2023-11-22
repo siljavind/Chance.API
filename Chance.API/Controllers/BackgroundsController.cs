@@ -25,14 +25,14 @@ namespace Chance.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Background>>> GetBackground()
         {
-            return await _context.Background.ToListAsync();
+            return await _context.Backgrounds.ToListAsync();
         }
 
         // GET: api/Backgrounds/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Background>> GetBackground(int id)
         {
-            var background = await _context.Background.FindAsync(id);
+            var background = await _context.Backgrounds.FindAsync(id);
 
             if (background == null)
             {
@@ -78,7 +78,7 @@ namespace Chance.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Background>> PostBackground(Background background)
         {
-            _context.Background.Add(background);
+            _context.Backgrounds.Add(background);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBackground", new { id = background.Id }, background);
@@ -88,13 +88,13 @@ namespace Chance.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBackground(int id)
         {
-            var background = await _context.Background.FindAsync(id);
+            var background = await _context.Backgrounds.FindAsync(id);
             if (background == null)
             {
                 return NotFound();
             }
 
-            _context.Background.Remove(background);
+            _context.Backgrounds.Remove(background);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Chance.API.Controllers
 
         private bool BackgroundExists(int id)
         {
-            return _context.Background.Any(e => e.Id == id);
+            return _context.Backgrounds.Any(e => e.Id == id);
         }
     }
 }

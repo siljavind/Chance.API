@@ -25,14 +25,14 @@ namespace Chance.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ability>>> GetAbility()
         {
-            return await _context.Ability.ToListAsync();
+            return await _context.Abilities.ToListAsync();
         }
 
         // GET: api/Abilities/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Ability>> GetAbility(int id)
         {
-            var ability = await _context.Ability.FindAsync(id);
+            var ability = await _context.Abilities.FindAsync(id);
 
             if (ability == null)
             {
@@ -78,7 +78,7 @@ namespace Chance.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Ability>> PostAbility(Ability ability)
         {
-            _context.Ability.Add(ability);
+            _context.Abilities.Add(ability);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetAbility", new { id = ability.Id }, ability);
@@ -88,13 +88,13 @@ namespace Chance.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAbility(int id)
         {
-            var ability = await _context.Ability.FindAsync(id);
+            var ability = await _context.Abilities.FindAsync(id);
             if (ability == null)
             {
                 return NotFound();
             }
 
-            _context.Ability.Remove(ability);
+            _context.Abilities.Remove(ability);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Chance.API.Controllers
 
         private bool AbilityExists(int id)
         {
-            return _context.Ability.Any(e => e.Id == id);
+            return _context.Abilities.Any(e => e.Id == id);
         }
     }
 }

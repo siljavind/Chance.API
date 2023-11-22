@@ -25,14 +25,14 @@ namespace Chance.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Subrace>>> GetSubrace()
         {
-            return await _context.Subrace.ToListAsync();
+            return await _context.Subraces.ToListAsync();
         }
 
         // GET: api/Subraces/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Subrace>> GetSubrace(int id)
         {
-            var subrace = await _context.Subrace.FindAsync(id);
+            var subrace = await _context.Subraces.FindAsync(id);
 
             if (subrace == null)
             {
@@ -78,7 +78,7 @@ namespace Chance.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Subrace>> PostSubrace(Subrace subrace)
         {
-            _context.Subrace.Add(subrace);
+            _context.Subraces.Add(subrace);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetSubrace", new { id = subrace.Id }, subrace);
@@ -88,13 +88,13 @@ namespace Chance.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSubrace(int id)
         {
-            var subrace = await _context.Subrace.FindAsync(id);
+            var subrace = await _context.Subraces.FindAsync(id);
             if (subrace == null)
             {
                 return NotFound();
             }
 
-            _context.Subrace.Remove(subrace);
+            _context.Subraces.Remove(subrace);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Chance.API.Controllers
 
         private bool SubraceExists(int id)
         {
-            return _context.Subrace.Any(e => e.Id == id);
+            return _context.Subraces.Any(e => e.Id == id);
         }
     }
 }

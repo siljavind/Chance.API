@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 //using Chance.Repo.Data;
 using Chance.Repo.Data;
+using Chance.Repo.Repos;
+using Chance.Repo.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,8 @@ builder.Services.AddSwaggerGen();
 // {
 //     options.UseSqlServer(builder.Configuration.GetConnectionString("connection"));
 // });
+
+//builder.Services.AddScoped<IAbilitiesRepo, AbilitiesRepo>();
 
 builder.Services.AddDbContext<ChanceDbContext>(options =>
 {

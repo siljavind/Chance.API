@@ -25,14 +25,14 @@ namespace Chance.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Feature>>> GetFeature()
         {
-            return await _context.Feature.ToListAsync();
+            return await _context.Features.ToListAsync();
         }
 
         // GET: api/Features/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Feature>> GetFeature(int id)
         {
-            var feature = await _context.Feature.FindAsync(id);
+            var feature = await _context.Features.FindAsync(id);
 
             if (feature == null)
             {
@@ -78,7 +78,7 @@ namespace Chance.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Feature>> PostFeature(Feature feature)
         {
-            _context.Feature.Add(feature);
+            _context.Features.Add(feature);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetFeature", new { id = feature.Id }, feature);
@@ -88,13 +88,13 @@ namespace Chance.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFeature(int id)
         {
-            var feature = await _context.Feature.FindAsync(id);
+            var feature = await _context.Features.FindAsync(id);
             if (feature == null)
             {
                 return NotFound();
             }
 
-            _context.Feature.Remove(feature);
+            _context.Features.Remove(feature);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Chance.API.Controllers
 
         private bool FeatureExists(int id)
         {
-            return _context.Feature.Any(e => e.Id == id);
+            return _context.Features.Any(e => e.Id == id);
         }
     }
 }

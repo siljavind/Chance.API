@@ -25,14 +25,14 @@ namespace Chance.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Race>>> GetRace()
         {
-            return await _context.Race.ToListAsync();
+            return await _context.Races.ToListAsync();
         }
 
         // GET: api/Races/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Race>> GetRace(int id)
         {
-            var race = await _context.Race.FindAsync(id);
+            var race = await _context.Races.FindAsync(id);
 
             if (race == null)
             {
@@ -78,7 +78,7 @@ namespace Chance.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Race>> PostRace(Race race)
         {
-            _context.Race.Add(race);
+            _context.Races.Add(race);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetRace", new { id = race.Id }, race);
@@ -88,13 +88,13 @@ namespace Chance.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRace(int id)
         {
-            var race = await _context.Race.FindAsync(id);
+            var race = await _context.Races.FindAsync(id);
             if (race == null)
             {
                 return NotFound();
             }
 
-            _context.Race.Remove(race);
+            _context.Races.Remove(race);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace Chance.API.Controllers
 
         private bool RaceExists(int id)
         {
-            return _context.Race.Any(e => e.Id == id);
+            return _context.Races.Any(e => e.Id == id);
         }
     }
 }
