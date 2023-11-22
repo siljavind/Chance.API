@@ -10,7 +10,7 @@ public class Race
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Title is required")]
-    public required string Title { get; set; }
+    public string Title { get; set; }
 
     [Required(ErrorMessage = "Speed is required")]
     public int Speed { get; set; }
@@ -18,16 +18,18 @@ public class Race
     [Required(ErrorMessage = "Size is required")]
     public Size Size { get; set; }
 
-    [Required]
     public int IncreaseAbilityId { get; set; }
     [ForeignKey("IncreaseAbilityId")]
-    public required Ability IncreaseAbility { get; set; }
+    public Ability IncreaseAbility { get; set; }
 
     [Required(ErrorMessage = "Ability increase score is required")]
     public int IncreaseAbilityScore { get; set; }
 
     [JsonIgnore]
     public List<Feature> Features { get; } = [];
+
+    [JsonIgnore]
+    public List<Subrace> Subraces { get; } = [];
 }
 
 public enum Size

@@ -26,5 +26,22 @@ public class ChanceDbContext : DbContext
     public DbSet<Subrace> Subraces { get; set; }
 
     public DbSet<User> Users { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Subrace>()
+        .HasOne(s => s.Race)
+        .WithMany(r => r.Subraces)
+        .HasForeignKey(s => s.RaceId)
+        .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<Character>()
+        .HasOne(c => c.Race)
+        .WithMany(r => r.Characters)
+
+
+    }
 }
 

@@ -10,7 +10,7 @@ public class Character
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Name is required")]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     [Required(ErrorMessage = "Age is required")]
     public int Age { get; set; }
@@ -20,29 +20,25 @@ public class Character
 
     public int XP { get; set; } = 0;
 
-    [Required]
     public int RaceId { get; set; }
     [ForeignKey("RaceId")]
-    public required Race Race { get; set; }
+    public Race Race { get; set; }
 
-    public int? SubraceId { get; set; }
+    public int SubraceId { get; set; }
     [ForeignKey("SubraceId")]
-    public required Subrace Subrace { get; set; }
+    public Subrace Subrace { get; set; }
 
-    [Required]
     public int ClassId { get; set; }
     [ForeignKey("ClassId")]
-    public required Class Class { get; set; }
+    public Class Class { get; set; }
 
-    [Required]
     public int BackgroundId { get; set; }
     [ForeignKey("BackgroundId")]
-    public required Background Background { get; set; }
+    public Background Background { get; set; }
 
-    [Required]
     public int UserId { get; set; }
     [ForeignKey("UserId")]
-    public required User User { get; set; }
+    public User User { get; set; }
 
     [JsonIgnore]
     public List<Ability> Abilities { get; } = [];

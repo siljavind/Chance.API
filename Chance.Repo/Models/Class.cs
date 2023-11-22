@@ -9,7 +9,7 @@ public class Class
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Title is required")]
-    public required string Title { get; set; }
+    public string Title { get; set; }
 
     [Required(ErrorMessage = "Amount of allowed proficiencies required")]
     public int SkillProficiencyCount { get; set; }

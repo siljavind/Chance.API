@@ -15,7 +15,6 @@ public class Ability
 
     [JsonIgnore]
     public List<Character> Characters { get; } = [];
-
 }
 
 public enum AbilityType
