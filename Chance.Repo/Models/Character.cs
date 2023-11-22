@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace Chance.API.Models;
+namespace Chance.Repo.Models;
 
 public class Character
 {
@@ -10,7 +10,7 @@ public class Character
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Name is required")]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     [Required(ErrorMessage = "Age is required")]
     public int Age { get; set; }
@@ -23,26 +23,26 @@ public class Character
     [Required]
     public int RaceId { get; set; }
     [ForeignKey("RaceId")]
-    public Race Race { get; set; }
+    public required Race Race { get; set; }
 
     public int? SubraceId { get; set; }
     [ForeignKey("SubraceId")]
-    public Subrace Subrace { get; set; }
+    public required Subrace Subrace { get; set; }
 
     [Required]
     public int ClassId { get; set; }
     [ForeignKey("ClassId")]
-    public Class Class { get; set; }
+    public required Class Class { get; set; }
 
     [Required]
     public int BackgroundId { get; set; }
     [ForeignKey("BackgroundId")]
-    public Background Background { get; set; }
+    public required Background Background { get; set; }
 
     [Required]
     public int UserId { get; set; }
     [ForeignKey("UserId")]
-    public User User { get; set; }
+    public required User User { get; set; }
 
     [JsonIgnore]
     public List<Ability> Abilities { get; } = [];

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Chance.API.Models;
+namespace Chance.Repo.Models;
 
 public class User
 {
@@ -10,7 +10,7 @@ public class User
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Username is required")]
-    public string Username { get; set; }
+    public required string Username { get; set; }
 
     [Required(ErrorMessage = "Role is required")]
     public Role Role { get; set; }

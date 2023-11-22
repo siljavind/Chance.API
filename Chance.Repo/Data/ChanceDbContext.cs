@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Chance.API.Models;
+using Chance.Repo.Models;
 
-namespace Chance.API.Data;
+namespace Chance.Repo.Data;
 
 public class ChanceDbContext : DbContext
 {

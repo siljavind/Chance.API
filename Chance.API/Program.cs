@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 //using Chance.Repo.Data;
-using Chance.API.Data;
+using Chance.Repo.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

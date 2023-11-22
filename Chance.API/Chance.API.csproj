@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- <ProjectReference Include="..\Chance.Repo\Chance.Repo.csproj" /> -->
+    <ProjectReference Include="..\Chance.Repo\Chance.Repo.csproj" />
   </ItemGroup>
 
 </Project>

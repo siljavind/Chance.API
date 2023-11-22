@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Chance.API.Data;
-using Chance.API.Models;
+using Chance.Repo.Data;
+using Chance.Repo.Models;
 
 namespace Chance.API.Controllers
 {

@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Chance.API.Models;
+namespace Chance.Repo.Models;
 
 public class Background
 {
+
     [Key]
     public int Id { get; set; }
 

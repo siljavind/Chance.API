@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Chance.API.Models;
+namespace Chance.Repo.Models;
 
 public class Class
 {
@@ -9,7 +9,7 @@ public class Class
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Title is required")]
-    public string Title { get; set; }
+    public required string Title { get; set; }
 
     [Required(ErrorMessage = "Amount of allowed proficiencies required")]
     public int SkillProficiencyCount { get; set; }
