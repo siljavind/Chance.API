@@ -26,6 +26,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ChanceDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("connection"));
+    // To create ef migration use command: dotnet ef migrations add InitialCreate --project ../Chance.Repo
+    // To update db use command: dotnet ef database update --project ../Chance.Repo
+    // --project is added because the dbcontext is in the Repo layer
+
 });
 
 var app = builder.Build();
