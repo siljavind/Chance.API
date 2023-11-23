@@ -14,12 +14,12 @@ public class Feature
     public string? Description { get; set; } // TODO Store the Description as HTML or Markdown
 
     [JsonIgnore]
-    public List<Class> Classes { get; } = [];
+    public List<Class> Classes { get; set; }
 
     [JsonIgnore]
-    public List<Race> Races { get; } = [];
+    public List<Race> Races { get; set; }
 
     [JsonIgnore]
-    public List<Subrace> Subraces { get; } = [];
+    public List<Subrace> Subraces { get; set; }
 
 }

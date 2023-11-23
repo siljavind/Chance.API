@@ -15,12 +15,15 @@ public class Class
     public int SkillProficiencyCount { get; set; }
 
     [JsonIgnore]
-    public List<Feature> Features { get; } = [];
+    public List<Feature> Features { get; set; }
 
     [JsonIgnore]
-    public List<Ability> Abilities { get; } = [];
+    public List<Ability> Abilities { get; set; }
 
     [JsonIgnore]
-    public List<Skill> Skills { get; } = [];
+    public List<Skill> Skills { get; set; }
+
+    [JsonIgnore]
+    public List<Character> Characters { get; set; }
 
 }

@@ -41,7 +41,7 @@ public class Character
     public User User { get; set; }
 
     [JsonIgnore]
-    public List<Ability> Abilities { get; } = [];
+    public List<Ability> Abilities { get; set; }
 }
 
 public enum Alignment

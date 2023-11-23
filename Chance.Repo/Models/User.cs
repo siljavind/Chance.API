@@ -15,7 +15,7 @@ public class User
     public Role Role { get; set; }
 
     [JsonIgnore]
-    public List<Character> Characters { get; } = [];
+    public List<Character> Characters { get; set; }
 }
 
 public enum Role

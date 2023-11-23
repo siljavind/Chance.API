@@ -26,10 +26,13 @@ public class Race
     public int IncreaseAbilityScore { get; set; }
 
     [JsonIgnore]
-    public List<Feature> Features { get; } = [];
+    public List<Feature> Features { get; set; }
 
     [JsonIgnore]
-    public List<Subrace> Subraces { get; } = [];
+    public List<Subrace> Subraces { get; set; }
+
+    [JsonIgnore]
+    public List<Character> Characters { get; set; }
 }
 
 public enum Size

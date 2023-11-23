@@ -15,16 +15,16 @@ public class Subrace
     public int IncreaseAbilityId { get; set; }
     [ForeignKey("IncreaseAbilityId")]
     public Ability IncreaseAbility { get; set; }
-
-    [Required(ErrorMessage = "Ability increase score is required")]
     public int IncreaseAbilityScore { get; set; }
 
     public int RaceId { get; set; }
-
     [ForeignKey("RaceId")]
     public Race Race { get; set; }
 
     [JsonIgnore]
-    public List<Feature> Features { get; } = [];
+    public List<Feature> Features { get; set; }
+
+    [JsonIgnore]
+    public List<Character> Characters { get; set; }
 
 }

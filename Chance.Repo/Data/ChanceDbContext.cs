@@ -31,17 +31,11 @@ public class ChanceDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Subrace>()
-        .HasOne(s => s.Race)
-        .WithMany(r => r.Subraces)
-        .HasForeignKey(s => s.RaceId)
-        .OnDelete(DeleteBehavior.NoAction);
-
-        modelBuilder.Entity<Character>()
-        .HasOne(c => c.Race)
-        .WithMany(r => r.Characters)
-
-
+        foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+        {
+            // TODO: Remove this when I have a better way to handle cascading deletes
+            relationship.DeleteBehavior = DeleteBehavior.NoAction;
+        };
     }
 }
 

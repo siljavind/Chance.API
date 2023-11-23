@@ -12,10 +12,10 @@ public class Skill
     public SkillType SkillType { get; set; }
 
     [JsonIgnore]
-    public List<Background> Backgrounds { get; } = [];
+    public List<Background> Backgrounds { get; set; }
 
     [JsonIgnore]
-    public List<Class> Classes { get; } = [];
+    public List<Class> Classes { get; set; }
 }
 
 public enum SkillType

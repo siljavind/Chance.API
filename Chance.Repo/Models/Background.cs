@@ -13,5 +13,8 @@ public class Background
     public string Title { get; set; }
 
     [JsonIgnore]
-    public List<Skill> Skills { get; } = [];
+    public List<Skill> Skills { get; set; }
+
+    [JsonIgnore]
+    public List<Character> Characters { get; set; }
 }

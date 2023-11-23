@@ -11,10 +11,16 @@ public class Ability
     public AbilityType AbilityType { get; set; }
 
     [JsonIgnore]
-    public List<Class> Classes { get; } = [];
+    public List<Class> Classes { get; set; }
 
     [JsonIgnore]
-    public List<Character> Characters { get; } = [];
+    public List<Character> Characters { get; set; }
+
+    [JsonIgnore]
+    public List<Race> Races { get; set; }
+
+    [JsonIgnore]
+    public List<Subrace> Subraces { get; set; }
 }
 
 public enum AbilityType
