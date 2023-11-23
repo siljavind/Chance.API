@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Chance.Repo.Data;
 using Chance.Repo.Repos;
 using Chance.Repo.Interfaces;
+using Chance.Repo.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,14 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-
-//Database
-// builder.Services.AddDbContext<ChanceDbContext>(options =>
-// {
-//     options.UseSqlServer(builder.Configuration.GetConnectionString("connection"));
-// });
-
-//builder.Services.AddScoped<IAbilitiesRepo, AbilitiesRepo>();
+builder.Services.AddScoped<IRepository<Ability>, AbilityRepo>();
+builder.Services.AddScoped<IRepository<Skill>, SkillRepo>();
 
 builder.Services.AddDbContext<ChanceDbContext>(options =>
 {
@@ -33,6 +29,9 @@ builder.Services.AddDbContext<ChanceDbContext>(options =>
 });
 
 var app = builder.Build();
+
+// TODO: Add global error handling
+//app.UseExceptionHandler("/error");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

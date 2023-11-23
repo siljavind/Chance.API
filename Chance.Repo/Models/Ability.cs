@@ -6,8 +6,6 @@ namespace Chance.Repo.Models;
 public class Ability
 {
     [Key]
-    public int Id { get; set; }
-
     public AbilityType AbilityType { get; set; }
 
     [JsonIgnore]
@@ -21,6 +19,9 @@ public class Ability
 
     [JsonIgnore]
     public List<Subrace> Subraces { get; set; }
+
+    [JsonIgnore]
+    public List<Skill> Skills { get; set; }
 }
 
 public enum AbilityType

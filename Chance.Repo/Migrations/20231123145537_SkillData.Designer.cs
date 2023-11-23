@@ -3,6 +3,7 @@ using Chance.Repo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chance.Repo.Migrations
 {
     [DbContext(typeof(ChanceDbContext))]
-    partial class ChanceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231123145537_SkillData")]
+    partial class SkillData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,17 +262,17 @@ namespace Chance.Repo.Migrations
                         new
                         {
                             SkillType = 0,
-                            AbilityId = 1
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 1,
-                            AbilityId = 4
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 2,
-                            AbilityId = 3
+                            AbilityId = 0
                         },
                         new
                         {
@@ -279,72 +282,72 @@ namespace Chance.Repo.Migrations
                         new
                         {
                             SkillType = 4,
-                            AbilityId = 5
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 5,
-                            AbilityId = 3
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 6,
-                            AbilityId = 4
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 7,
-                            AbilityId = 5
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 8,
-                            AbilityId = 3
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 9,
-                            AbilityId = 4
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 10,
-                            AbilityId = 3
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 11,
-                            AbilityId = 4
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 12,
-                            AbilityId = 5
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 13,
-                            AbilityId = 5
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 14,
-                            AbilityId = 3
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 15,
-                            AbilityId = 1
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 16,
-                            AbilityId = 1
+                            AbilityId = 0
                         },
                         new
                         {
                             SkillType = 17,
-                            AbilityId = 4
+                            AbilityId = 0
                         });
                 });
 

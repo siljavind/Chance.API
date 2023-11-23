@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Chance.Repo.Models;
@@ -6,10 +7,12 @@ namespace Chance.Repo.Models;
 public class Skill
 {
     [Key]
-    public int Id { get; set; }
+    public SkillType SkillType { get; set; }
 
     [Required]
-    public SkillType SkillType { get; set; }
+    [ForeignKey("Ability")]
+    public AbilityType AbilityId { get; set; }
+    public Ability Ability { get; set; }
 
     [JsonIgnore]
     public List<Background> Backgrounds { get; set; }

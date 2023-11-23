@@ -36,6 +36,42 @@ public class ChanceDbContext : DbContext
             // TODO: Remove this when I have a better way to handle cascading deletes
             relationship.DeleteBehavior = DeleteBehavior.NoAction;
         };
+
+        modelBuilder.Entity<Ability>().HasData(
+        Enum.GetValues(typeof(AbilityType))
+            .Cast<AbilityType>()
+            .Select((abilityType) => new Ability { AbilityType = abilityType })
+            .ToArray()
+            );
+
+        var skillToAbilityMap = new Dictionary<SkillType, AbilityType> {
+            { SkillType.Acrobatics, AbilityType.Dexterity },
+            { SkillType.AnimalHandling, AbilityType.Wisdom },
+            { SkillType.Arcana, AbilityType.Intelligence },
+            { SkillType.Athletics, AbilityType.Strength },
+            { SkillType.Deception, AbilityType.Charisma },
+            { SkillType.History, AbilityType.Intelligence },
+            { SkillType.Insight, AbilityType.Wisdom },
+            { SkillType.Intimidation, AbilityType.Charisma },
+            { SkillType.Investigation, AbilityType.Intelligence },
+            { SkillType.Medicine, AbilityType.Wisdom },
+            { SkillType.Nature, AbilityType.Intelligence },
+            { SkillType.Perception, AbilityType.Wisdom },
+            { SkillType.Performance, AbilityType.Charisma },
+            { SkillType.Persuasion, AbilityType.Charisma },
+            { SkillType.Religion, AbilityType.Intelligence },
+            { SkillType.SleightOfHand, AbilityType.Dexterity },
+            { SkillType.Stealth, AbilityType.Dexterity },
+            { SkillType.Survival, AbilityType.Wisdom }
+        };
+
+
+        modelBuilder.Entity<Skill>().HasData(
+        Enum.GetValues(typeof(SkillType))
+            .Cast<SkillType>()
+            .Select((skillType) => new Skill { SkillType = skillType, AbilityId = skillToAbilityMap[skillType] })
+            .ToArray()
+            );
     }
 }
 
