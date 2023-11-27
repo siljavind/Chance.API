@@ -23,13 +23,13 @@ namespace Chance.Repo.Migrations
 
             modelBuilder.Entity("AbilityCharacter", b =>
                 {
-                    b.Property<int>("AbilitiesAbilityType")
+                    b.Property<int>("AbilitiesId")
                         .HasColumnType("int");
 
                     b.Property<int>("CharactersId")
                         .HasColumnType("int");
 
-                    b.HasKey("AbilitiesAbilityType", "CharactersId");
+                    b.HasKey("AbilitiesId", "CharactersId");
 
                     b.HasIndex("CharactersId");
 
@@ -38,13 +38,13 @@ namespace Chance.Repo.Migrations
 
             modelBuilder.Entity("AbilityClass", b =>
                 {
-                    b.Property<int>("AbilitiesAbilityType")
+                    b.Property<int>("AbilitiesId")
                         .HasColumnType("int");
 
                     b.Property<int>("ClassesId")
                         .HasColumnType("int");
 
-                    b.HasKey("AbilitiesAbilityType", "ClassesId");
+                    b.HasKey("AbilitiesId", "ClassesId");
 
                     b.HasIndex("ClassesId");
 
@@ -56,49 +56,62 @@ namespace Chance.Repo.Migrations
                     b.Property<int>("BackgroundsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SkillsSkillType")
+                    b.Property<int>("SkillsId")
                         .HasColumnType("int");
 
-                    b.HasKey("BackgroundsId", "SkillsSkillType");
+                    b.HasKey("BackgroundsId", "SkillsId");
 
-                    b.HasIndex("SkillsSkillType");
+                    b.HasIndex("SkillsId");
 
                     b.ToTable("BackgroundSkill");
                 });
 
             modelBuilder.Entity("Chance.Repo.Models.Ability", b =>
                 {
-                    b.Property<int>("AbilityType")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.HasKey("AbilityType");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(15)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Abilities");
 
                     b.HasData(
                         new
                         {
-                            AbilityType = 0
+                            Id = 1,
+                            Title = "Strength"
                         },
                         new
                         {
-                            AbilityType = 1
+                            Id = 2,
+                            Title = "Dexterity"
                         },
                         new
                         {
-                            AbilityType = 2
+                            Id = 3,
+                            Title = "Constitution"
                         },
                         new
                         {
-                            AbilityType = 3
+                            Id = 4,
+                            Title = "Intelligence"
                         },
                         new
                         {
-                            AbilityType = 4
+                            Id = 5,
+                            Title = "Wisdom"
                         },
                         new
                         {
-                            AbilityType = 5
+                            Id = 6,
+                            Title = "Charisma"
                         });
                 });
 
@@ -243,13 +256,20 @@ namespace Chance.Repo.Migrations
 
             modelBuilder.Entity("Chance.Repo.Models.Skill", b =>
                 {
-                    b.Property<int>("SkillType")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AbilityId")
                         .HasColumnType("int");
 
-                    b.HasKey("SkillType");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(15)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("AbilityId");
 
@@ -258,93 +278,111 @@ namespace Chance.Repo.Migrations
                     b.HasData(
                         new
                         {
-                            SkillType = 0,
-                            AbilityId = 1
+                            Id = 1,
+                            AbilityId = 2,
+                            Title = "Acrobatics"
                         },
                         new
                         {
-                            SkillType = 1,
-                            AbilityId = 4
+                            Id = 2,
+                            AbilityId = 5,
+                            Title = "AnimalHandling"
                         },
                         new
                         {
-                            SkillType = 2,
-                            AbilityId = 3
+                            Id = 3,
+                            AbilityId = 4,
+                            Title = "Arcana"
                         },
                         new
                         {
-                            SkillType = 3,
-                            AbilityId = 0
+                            Id = 4,
+                            AbilityId = 1,
+                            Title = "Athletics"
                         },
                         new
                         {
-                            SkillType = 4,
-                            AbilityId = 5
+                            Id = 5,
+                            AbilityId = 6,
+                            Title = "Deception"
                         },
                         new
                         {
-                            SkillType = 5,
-                            AbilityId = 3
+                            Id = 6,
+                            AbilityId = 4,
+                            Title = "History"
                         },
                         new
                         {
-                            SkillType = 6,
-                            AbilityId = 4
+                            Id = 7,
+                            AbilityId = 5,
+                            Title = "Insight"
                         },
                         new
                         {
-                            SkillType = 7,
-                            AbilityId = 5
+                            Id = 8,
+                            AbilityId = 6,
+                            Title = "Intimidation"
                         },
                         new
                         {
-                            SkillType = 8,
-                            AbilityId = 3
+                            Id = 9,
+                            AbilityId = 4,
+                            Title = "Investigation"
                         },
                         new
                         {
-                            SkillType = 9,
-                            AbilityId = 4
+                            Id = 10,
+                            AbilityId = 5,
+                            Title = "Medicine"
                         },
                         new
                         {
-                            SkillType = 10,
-                            AbilityId = 3
+                            Id = 11,
+                            AbilityId = 4,
+                            Title = "Nature"
                         },
                         new
                         {
-                            SkillType = 11,
-                            AbilityId = 4
+                            Id = 12,
+                            AbilityId = 5,
+                            Title = "Perception"
                         },
                         new
                         {
-                            SkillType = 12,
-                            AbilityId = 5
+                            Id = 13,
+                            AbilityId = 6,
+                            Title = "Performance"
                         },
                         new
                         {
-                            SkillType = 13,
-                            AbilityId = 5
+                            Id = 14,
+                            AbilityId = 6,
+                            Title = "Persuasion"
                         },
                         new
                         {
-                            SkillType = 14,
-                            AbilityId = 3
+                            Id = 15,
+                            AbilityId = 4,
+                            Title = "Religion"
                         },
                         new
                         {
-                            SkillType = 15,
-                            AbilityId = 1
+                            Id = 16,
+                            AbilityId = 2,
+                            Title = "SleightOfHand"
                         },
                         new
                         {
-                            SkillType = 16,
-                            AbilityId = 1
+                            Id = 17,
+                            AbilityId = 2,
+                            Title = "Stealth"
                         },
                         new
                         {
-                            SkillType = 17,
-                            AbilityId = 4
+                            Id = 18,
+                            AbilityId = 5,
+                            Title = "Survival"
                         });
                 });
 
@@ -418,12 +456,12 @@ namespace Chance.Repo.Migrations
                     b.Property<int>("ClassesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SkillsSkillType")
+                    b.Property<int>("SkillsId")
                         .HasColumnType("int");
 
-                    b.HasKey("ClassesId", "SkillsSkillType");
+                    b.HasKey("ClassesId", "SkillsId");
 
-                    b.HasIndex("SkillsSkillType");
+                    b.HasIndex("SkillsId");
 
                     b.ToTable("ClassSkill");
                 });
@@ -462,7 +500,7 @@ namespace Chance.Repo.Migrations
                 {
                     b.HasOne("Chance.Repo.Models.Ability", null)
                         .WithMany()
-                        .HasForeignKey("AbilitiesAbilityType")
+                        .HasForeignKey("AbilitiesId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -477,7 +515,7 @@ namespace Chance.Repo.Migrations
                 {
                     b.HasOne("Chance.Repo.Models.Ability", null)
                         .WithMany()
-                        .HasForeignKey("AbilitiesAbilityType")
+                        .HasForeignKey("AbilitiesId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -498,7 +536,7 @@ namespace Chance.Repo.Migrations
 
                     b.HasOne("Chance.Repo.Models.Skill", null)
                         .WithMany()
-                        .HasForeignKey("SkillsSkillType")
+                        .HasForeignKey("SkillsId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
@@ -612,7 +650,7 @@ namespace Chance.Repo.Migrations
 
                     b.HasOne("Chance.Repo.Models.Skill", null)
                         .WithMany()
-                        .HasForeignKey("SkillsSkillType")
+                        .HasForeignKey("SkillsId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });

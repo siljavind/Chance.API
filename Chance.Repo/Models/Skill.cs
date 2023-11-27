@@ -7,11 +7,14 @@ namespace Chance.Repo.Models;
 public class Skill
 {
     [Key]
-    public SkillType SkillType { get; set; }
+    public int Id { get; set; }
+
+    [Column(TypeName = "nvarchar(15)")]
+    public SkillType Title { get; set; }
 
     [Required]
     [ForeignKey("Ability")]
-    public AbilityType AbilityId { get; set; }
+    public int AbilityId { get; set; }
     public Ability Ability { get; set; }
 
     [JsonIgnore]
@@ -23,7 +26,7 @@ public class Skill
 
 public enum SkillType
 {
-    Acrobatics,
+    Acrobatics = 1,
     AnimalHandling,
     Arcana,
     Athletics,

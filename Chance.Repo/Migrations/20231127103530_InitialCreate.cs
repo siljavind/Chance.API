@@ -2,6 +2,8 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Chance.Repo.Migrations
 {
     /// <inheritdoc />
@@ -14,11 +16,13 @@ namespace Chance.Repo.Migrations
                 name: "Abilities",
                 columns: table => new
                 {
-                    AbilityType = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(15)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Abilities", x => x.AbilityType);
+                    table.PrimaryKey("PK_Abilities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,7 +99,7 @@ namespace Chance.Repo.Migrations
                         name: "FK_Races_Abilities_IncreaseAbilityId",
                         column: x => x.IncreaseAbilityId,
                         principalTable: "Abilities",
-                        principalColumn: "AbilityType");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -104,7 +108,7 @@ namespace Chance.Repo.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SkillType = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(15)", nullable: false),
                     AbilityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -114,24 +118,24 @@ namespace Chance.Repo.Migrations
                         name: "FK_Skills_Abilities_AbilityId",
                         column: x => x.AbilityId,
                         principalTable: "Abilities",
-                        principalColumn: "AbilityType");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "AbilityClass",
                 columns: table => new
                 {
-                    AbilitiesAbilityType = table.Column<int>(type: "int", nullable: false),
+                    AbilitiesId = table.Column<int>(type: "int", nullable: false),
                     ClassesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AbilityClass", x => new { x.AbilitiesAbilityType, x.ClassesId });
+                    table.PrimaryKey("PK_AbilityClass", x => new { x.AbilitiesId, x.ClassesId });
                     table.ForeignKey(
-                        name: "FK_AbilityClass_Abilities_AbilitiesAbilityType",
-                        column: x => x.AbilitiesAbilityType,
+                        name: "FK_AbilityClass_Abilities_AbilitiesId",
+                        column: x => x.AbilitiesId,
                         principalTable: "Abilities",
-                        principalColumn: "AbilityType");
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AbilityClass_Classes_ClassesId",
                         column: x => x.ClassesId,
@@ -201,7 +205,7 @@ namespace Chance.Repo.Migrations
                         name: "FK_Subraces_Abilities_IncreaseAbilityId",
                         column: x => x.IncreaseAbilityId,
                         principalTable: "Abilities",
-                        principalColumn: "AbilityType");
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Subraces_Races_RaceId",
                         column: x => x.RaceId,
@@ -325,17 +329,17 @@ namespace Chance.Repo.Migrations
                 name: "AbilityCharacter",
                 columns: table => new
                 {
-                    AbilitiesAbilityType = table.Column<int>(type: "int", nullable: false),
+                    AbilitiesId = table.Column<int>(type: "int", nullable: false),
                     CharactersId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AbilityCharacter", x => new { x.AbilitiesAbilityType, x.CharactersId });
+                    table.PrimaryKey("PK_AbilityCharacter", x => new { x.AbilitiesId, x.CharactersId });
                     table.ForeignKey(
-                        name: "FK_AbilityCharacter_Abilities_AbilitiesAbilityType",
-                        column: x => x.AbilitiesAbilityType,
+                        name: "FK_AbilityCharacter_Abilities_AbilitiesId",
+                        column: x => x.AbilitiesId,
                         principalTable: "Abilities",
-                        principalColumn: "AbilityType");
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_AbilityCharacter_Characters_CharactersId",
                         column: x => x.CharactersId,
@@ -345,15 +349,40 @@ namespace Chance.Repo.Migrations
 
             migrationBuilder.InsertData(
                 table: "Abilities",
-                column: "AbilityType",
-                values: new object[]
+                columns: new[] { "Id", "Title" },
+                values: new object[,]
                 {
-                    0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5
+                    { 1, "Strength" },
+                    { 2, "Dexterity" },
+                    { 3, "Constitution" },
+                    { 4, "Intelligence" },
+                    { 5, "Wisdom" },
+                    { 6, "Charisma" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Skills",
+                columns: new[] { "Id", "AbilityId", "Title" },
+                values: new object[,]
+                {
+                    { 1, 2, "Acrobatics" },
+                    { 2, 5, "AnimalHandling" },
+                    { 3, 4, "Arcana" },
+                    { 4, 1, "Athletics" },
+                    { 5, 6, "Deception" },
+                    { 6, 4, "History" },
+                    { 7, 5, "Insight" },
+                    { 8, 6, "Intimidation" },
+                    { 9, 4, "Investigation" },
+                    { 10, 5, "Medicine" },
+                    { 11, 4, "Nature" },
+                    { 12, 5, "Perception" },
+                    { 13, 6, "Performance" },
+                    { 14, 6, "Persuasion" },
+                    { 15, 4, "Religion" },
+                    { 16, 2, "SleightOfHand" },
+                    { 17, 2, "Stealth" },
+                    { 18, 5, "Survival" }
                 });
 
             migrationBuilder.CreateIndex(

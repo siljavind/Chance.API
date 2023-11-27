@@ -4,6 +4,7 @@ using Chance.Repo.Data;
 using Chance.Repo.Repos;
 using Chance.Repo.Interfaces;
 using Chance.Repo.Models;
+using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,11 @@ builder.Services.AddDbContext<ChanceDbContext>(options =>
     // To update db use command: dotnet ef database update --project ../Chance.Repo
     // --project is added because the dbcontext is in the Repo layer
 
+});
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
 var app = builder.Build();

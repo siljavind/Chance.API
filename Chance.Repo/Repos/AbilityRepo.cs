@@ -19,9 +19,9 @@ public class AbilityRepo : IRepository<Ability>
         return await _context.Abilities.ToListAsync();
     }
 
-    public async Task<Ability> GetById(int id) => await _context.Abilities.SingleAsync(a => a.AbilityType == (AbilityType)id);
+    public async Task<Ability> GetById(int id) => await _context.Abilities.SingleAsync(a => a.Id == id);
 
-    public async Task<Ability> GetByAbilityType(int abilityType) => await _context.Abilities.SingleAsync(a => a.AbilityType == (AbilityType)abilityType);
+    //public async Task<Ability> GetByAbilityType(int abilityType) => await _context.Abilities.SingleAsync(a => a.AbilityType == (AbilityType)abilityType);
 
     public Ability Create(Ability ability)
     {
@@ -35,6 +35,6 @@ public class AbilityRepo : IRepository<Ability>
         throw new NotImplementedException();
     }
 
-    public int Delete(int id) => _context.Abilities.Where(a => a.AbilityType == (AbilityType)id).ExecuteDelete();
+    public int Delete(int id) => _context.Abilities.Where(a => a.Id == id).ExecuteDelete();
 
 }

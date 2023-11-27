@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chance.Repo.Migrations
 {
     [DbContext(typeof(ChanceDbContext))]
-    [Migration("20231123144541_InitialCreate")]
+    [Migration("20231127103530_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -26,13 +26,13 @@ namespace Chance.Repo.Migrations
 
             modelBuilder.Entity("AbilityCharacter", b =>
                 {
-                    b.Property<int>("AbilitiesAbilityType")
+                    b.Property<int>("AbilitiesId")
                         .HasColumnType("int");
 
                     b.Property<int>("CharactersId")
                         .HasColumnType("int");
 
-                    b.HasKey("AbilitiesAbilityType", "CharactersId");
+                    b.HasKey("AbilitiesId", "CharactersId");
 
                     b.HasIndex("CharactersId");
 
@@ -41,13 +41,13 @@ namespace Chance.Repo.Migrations
 
             modelBuilder.Entity("AbilityClass", b =>
                 {
-                    b.Property<int>("AbilitiesAbilityType")
+                    b.Property<int>("AbilitiesId")
                         .HasColumnType("int");
 
                     b.Property<int>("ClassesId")
                         .HasColumnType("int");
 
-                    b.HasKey("AbilitiesAbilityType", "ClassesId");
+                    b.HasKey("AbilitiesId", "ClassesId");
 
                     b.HasIndex("ClassesId");
 
@@ -71,37 +71,50 @@ namespace Chance.Repo.Migrations
 
             modelBuilder.Entity("Chance.Repo.Models.Ability", b =>
                 {
-                    b.Property<int>("AbilityType")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.HasKey("AbilityType");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(15)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Abilities");
 
                     b.HasData(
                         new
                         {
-                            AbilityType = 0
+                            Id = 1,
+                            Title = "Strength"
                         },
                         new
                         {
-                            AbilityType = 1
+                            Id = 2,
+                            Title = "Dexterity"
                         },
                         new
                         {
-                            AbilityType = 2
+                            Id = 3,
+                            Title = "Constitution"
                         },
                         new
                         {
-                            AbilityType = 3
+                            Id = 4,
+                            Title = "Intelligence"
                         },
                         new
                         {
-                            AbilityType = 4
+                            Id = 5,
+                            Title = "Wisdom"
                         },
                         new
                         {
-                            AbilityType = 5
+                            Id = 6,
+                            Title = "Charisma"
                         });
                 });
 
@@ -255,14 +268,125 @@ namespace Chance.Repo.Migrations
                     b.Property<int>("AbilityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SkillType")
-                        .HasColumnType("int");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AbilityId");
 
                     b.ToTable("Skills");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AbilityId = 2,
+                            Title = "Acrobatics"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AbilityId = 5,
+                            Title = "AnimalHandling"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AbilityId = 4,
+                            Title = "Arcana"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AbilityId = 1,
+                            Title = "Athletics"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AbilityId = 6,
+                            Title = "Deception"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AbilityId = 4,
+                            Title = "History"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AbilityId = 5,
+                            Title = "Insight"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AbilityId = 6,
+                            Title = "Intimidation"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AbilityId = 4,
+                            Title = "Investigation"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AbilityId = 5,
+                            Title = "Medicine"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AbilityId = 4,
+                            Title = "Nature"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            AbilityId = 5,
+                            Title = "Perception"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            AbilityId = 6,
+                            Title = "Performance"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            AbilityId = 6,
+                            Title = "Persuasion"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            AbilityId = 4,
+                            Title = "Religion"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            AbilityId = 2,
+                            Title = "SleightOfHand"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            AbilityId = 2,
+                            Title = "Stealth"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            AbilityId = 5,
+                            Title = "Survival"
+                        });
                 });
 
             modelBuilder.Entity("Chance.Repo.Models.Subrace", b =>
@@ -379,7 +503,7 @@ namespace Chance.Repo.Migrations
                 {
                     b.HasOne("Chance.Repo.Models.Ability", null)
                         .WithMany()
-                        .HasForeignKey("AbilitiesAbilityType")
+                        .HasForeignKey("AbilitiesId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -394,7 +518,7 @@ namespace Chance.Repo.Migrations
                 {
                     b.HasOne("Chance.Repo.Models.Ability", null)
                         .WithMany()
-                        .HasForeignKey("AbilitiesAbilityType")
+                        .HasForeignKey("AbilitiesId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 

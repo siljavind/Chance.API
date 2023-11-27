@@ -14,11 +14,17 @@ public class SkillRepo : IRepository<Skill>
         _context = context;
     }
 
-    public async Task<List<Skill>> GetAll() => await _context.Skills.ToListAsync();
+    public async Task<List<Skill>> GetAll()
+    {
+        return await _context.Skills.ToListAsync();
+    }
 
-    public async Task<Skill> GetById(int id) => await _context.Skills.SingleAsync(a => a.SkillType == (SkillType)id);
+    public async Task<Skill> GetById(int id)
+    {
+        return await _context.Skills.SingleAsync(s => s.Id == id);
+    }
 
-    public async Task<Skill> GetBySkillType(int skillType) => await _context.Skills.SingleAsync(a => a.SkillType == (SkillType)skillType);
+    public async Task<Skill> GetBytitle(int skillType) => await _context.Skills.SingleAsync(s => s.Title == (SkillType)skillType);
 
     public Skill Create(Skill skill)
     {
@@ -32,6 +38,6 @@ public class SkillRepo : IRepository<Skill>
         throw new NotImplementedException();
     }
 
-    public int Delete(int id) => _context.Skills.Where(a => a.SkillType == (SkillType)id).ExecuteDelete();
+    public int Delete(int id) => _context.Skills.Where(a => a.Id == id).ExecuteDelete();
 
 }

@@ -29,20 +29,19 @@ namespace Chance.API.Controllers
             return await SkillRepo.GetAll();
         }
 
-
         // GET: api/Skills/5
-        // [HttpGet("{id}")]
-        // public async Task<ActionResult<Skill>> GetSkill(int id)
-        // {
-        //     var skill = await _context.Skills.FindAsync(id);
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Skill>> GetSkill(int id)
+        {
+            var skill = await SkillRepo.GetById(id);
 
-        //     if (skill == null)
-        //     {
-        //         return NotFound();
-        //     }
+            if (skill == null)
+            {
+                return NotFound();
+            }
 
-        //     return skill;
-        // }
+            return skill;
+        }
 
         // PUT: api/Skills/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Chance.Repo.Models;
@@ -6,7 +7,11 @@ namespace Chance.Repo.Models;
 public class Ability
 {
     [Key]
-    public AbilityType AbilityType { get; set; }
+    public int Id { get; set; }
+
+    [Required(ErrorMessage = "Title is required")]
+    [Column(TypeName = "nvarchar(15)")]
+    public AbilityType Title { get; set; }
 
     [JsonIgnore]
     public List<Class> Classes { get; set; }
@@ -26,7 +31,7 @@ public class Ability
 
 public enum AbilityType
 {
-    Strength,
+    Strength = 1,
     Dexterity,
     Constitution,
     Intelligence,
