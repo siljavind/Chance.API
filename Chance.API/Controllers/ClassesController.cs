@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Chance.Repo.Data;
 using Chance.Repo.Models;
+using Chance.Repo.Interfaces;
 
 namespace Chance.API.Controllers
 {
@@ -14,95 +10,64 @@ namespace Chance.API.Controllers
     [ApiController]
     public class ClassesController : ControllerBase
     {
-        private readonly ChanceDbContext _context;
+        IGenericRepo<Class> _classRepo { get; set; }
 
-        public ClassesController(ChanceDbContext context)
+        public ClassesController(IGenericRepo<Class> classRepo)
         {
-            _context = context;
+            _classRepo = classRepo;
         }
 
         // GET: api/Classes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Class>>> GetClass()
-        {
-            return await _context.Classes.ToListAsync();
-        }
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<Class>>> GetClass() => await _classRepo.GetAll();
 
         // GET: api/Classes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Class>> GetClass(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Class>> GetClass(int id) => await _classRepo.GetById(id) is { } classParam ? Ok(classParam) : NotFound();
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Class>> PostClass(Class classParam)
         {
-            var @class = await _context.Classes.FindAsync(id);
+            var classParamExists = await _classRepo.TitleExists(classParam.Title);
 
-            if (@class == null)
-            {
-                return NotFound();
-            }
+            if (classParamExists)
+                return Conflict("A class with the same title already exists.");
 
-            return @class;
+            await _classRepo.Create(classParam);
+
+            return CreatedAtAction("GetClass", new { id = classParam.Id }, classParam);
         }
 
         // PUT: api/Classes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClass(int id, Class @class)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PutClass(int id, Class classParam)
         {
-            if (id != @class.Id)
-            {
+            if (id != classParam.Id)
                 return BadRequest();
-            }
 
-            _context.Entry(@class).State = EntityState.Modified;
+            var updatedClass = await _classRepo.Update(classParam);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClassExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Classes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Class>> PostClass(Class @class)
-        {
-            _context.Classes.Add(@class);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetClass", new { id = @class.Id }, @class);
+            return Ok(updatedClass);
         }
 
         // DELETE: api/Classes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteClass(int id)
-        {
-            var @class = await _context.Classes.FindAsync(id);
-            if (@class == null)
-            {
-                return NotFound();
-            }
-
-            _context.Classes.Remove(@class);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool ClassExists(int id)
-        {
-            return _context.Classes.Any(e => e.Id == id);
-        }
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteClass(int id) => await _classRepo.Delete(id) != 0 ? NoContent() : NotFound();
     }
 }

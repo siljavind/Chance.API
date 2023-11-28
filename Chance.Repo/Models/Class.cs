@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Chance.Repo.Interfaces;
 
 namespace Chance.Repo.Models;
 
 [Index(nameof(Title), IsUnique = true)]
-public class Class
+public class Class : IGeneric
 {
     [Key]
     public int Id { get; set; }
