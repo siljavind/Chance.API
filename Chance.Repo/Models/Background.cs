@@ -1,11 +1,14 @@
+using System.Data;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chance.Repo.Models;
 
+
+[Index(nameof(Title), IsUnique = true)]
 public class Background
 {
-
     [Key]
     public int Id { get; set; }
 
@@ -13,8 +16,8 @@ public class Background
     public string Title { get; set; }
 
     [JsonIgnore]
-    public List<Skill> Skills { get; set; }
+    public List<Skill> Skills { get; set; } = [];
 
     [JsonIgnore]
-    public List<Character> Characters { get; set; }
+    public List<Character> Characters { get; set; } = [];
 }

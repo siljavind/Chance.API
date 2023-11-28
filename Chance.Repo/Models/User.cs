@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chance.Repo.Models;
 
+[Index(nameof(Username), IsUnique = true)]
 public class User
 {
     [Key]
@@ -15,7 +17,7 @@ public class User
     public Role Role { get; set; }
 
     [JsonIgnore]
-    public List<Character> Characters { get; set; }
+    public List<Character> Characters { get; set; } = [];
 }
 
 public enum Role

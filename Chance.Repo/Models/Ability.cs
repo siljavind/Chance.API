@@ -13,19 +13,19 @@ public class Ability : IImmutable
     public AbilityType Title { get; set; }
 
     [JsonIgnore]
-    public List<Class> Classes { get; set; }
+    public List<Class> Classes { get; set; } = [];
 
     [JsonIgnore]
-    public List<Character> Characters { get; set; }
+    public List<Character> Characters { get; set; } = [];
 
     [JsonIgnore]
-    public List<Race> Races { get; set; }
+    public List<Race> Races { get; set; } = [];
 
     [JsonIgnore]
-    public List<Subrace> Subraces { get; set; }
+    public List<Subrace> Subraces { get; set; } = [];
 
     [JsonIgnore]
-    public List<Skill> Skills { get; set; }
+    public List<Skill> Skills { get; set; } = [];
 }
 
 public enum AbilityType

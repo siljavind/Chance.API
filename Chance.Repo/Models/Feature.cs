@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chance.Repo.Models;
 
+[Index(nameof(Title), IsUnique = true)]
 public class Feature
 {
     [Key]
@@ -14,12 +16,12 @@ public class Feature
     public string? Description { get; set; } // TODO Store the Description as HTML or Markdown
 
     [JsonIgnore]
-    public List<Class> Classes { get; set; }
+    public List<Class> Classes { get; set; } = [];
 
     [JsonIgnore]
-    public List<Race> Races { get; set; }
+    public List<Race> Races { get; set; } = [];
 
     [JsonIgnore]
-    public List<Subrace> Subraces { get; set; }
+    public List<Subrace> Subraces { get; set; } = [];
 
 }

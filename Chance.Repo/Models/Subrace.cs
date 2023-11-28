@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chance.Repo.Models;
 
+[Index(nameof(Title), IsUnique = true)]
 public class Subrace
 {
     [Key]
@@ -23,9 +25,9 @@ public class Subrace
     public Race Race { get; set; }
 
     [JsonIgnore]
-    public List<Feature> Features { get; set; }
+    public List<Feature> Features { get; set; } = [];
 
     [JsonIgnore]
-    public List<Character> Characters { get; set; }
+    public List<Character> Characters { get; set; } = [];
 
 }

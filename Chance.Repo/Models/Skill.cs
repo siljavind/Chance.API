@@ -19,10 +19,10 @@ public class Skill : IImmutable
     public Ability Ability { get; set; }
 
     [JsonIgnore]
-    public List<Background> Backgrounds { get; set; }
+    public List<Background> Backgrounds { get; set; } = [];
 
     [JsonIgnore]
-    public List<Class> Classes { get; set; }
+    public List<Class> Classes { get; set; } = [];
 }
 
 public enum SkillType
