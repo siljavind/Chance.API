@@ -69,6 +69,12 @@ namespace Chance.Repo.Migrations
             modelBuilder.Entity("Chance.Repo.Models.Ability", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Title")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -78,27 +84,33 @@ namespace Chance.Repo.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1
+                            Id = 1,
+                            Title = 1
                         },
                         new
                         {
-                            Id = 2
+                            Id = 2,
+                            Title = 2
                         },
                         new
                         {
-                            Id = 3
+                            Id = 3,
+                            Title = 3
                         },
                         new
                         {
-                            Id = 4
+                            Id = 4,
+                            Title = 4
                         },
                         new
                         {
-                            Id = 5
+                            Id = 5,
+                            Title = 5
                         },
                         new
                         {
-                            Id = 6
+                            Id = 6,
+                            Title = 6
                         });
                 });
 
@@ -244,9 +256,15 @@ namespace Chance.Repo.Migrations
             modelBuilder.Entity("Chance.Repo.Models.Skill", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("AbilityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Title")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -259,92 +277,110 @@ namespace Chance.Repo.Migrations
                         new
                         {
                             Id = 1,
-                            AbilityId = 2
+                            AbilityId = 2,
+                            Title = 1
                         },
                         new
                         {
                             Id = 2,
-                            AbilityId = 5
+                            AbilityId = 5,
+                            Title = 2
                         },
                         new
                         {
                             Id = 3,
-                            AbilityId = 4
+                            AbilityId = 4,
+                            Title = 3
                         },
                         new
                         {
                             Id = 4,
-                            AbilityId = 1
+                            AbilityId = 1,
+                            Title = 4
                         },
                         new
                         {
                             Id = 5,
-                            AbilityId = 6
+                            AbilityId = 6,
+                            Title = 5
                         },
                         new
                         {
                             Id = 6,
-                            AbilityId = 4
+                            AbilityId = 4,
+                            Title = 6
                         },
                         new
                         {
                             Id = 7,
-                            AbilityId = 5
+                            AbilityId = 5,
+                            Title = 7
                         },
                         new
                         {
                             Id = 8,
-                            AbilityId = 6
+                            AbilityId = 6,
+                            Title = 8
                         },
                         new
                         {
                             Id = 9,
-                            AbilityId = 4
+                            AbilityId = 4,
+                            Title = 9
                         },
                         new
                         {
                             Id = 10,
-                            AbilityId = 5
+                            AbilityId = 5,
+                            Title = 10
                         },
                         new
                         {
                             Id = 11,
-                            AbilityId = 4
+                            AbilityId = 4,
+                            Title = 11
                         },
                         new
                         {
                             Id = 12,
-                            AbilityId = 5
+                            AbilityId = 5,
+                            Title = 12
                         },
                         new
                         {
                             Id = 13,
-                            AbilityId = 6
+                            AbilityId = 6,
+                            Title = 13
                         },
                         new
                         {
                             Id = 14,
-                            AbilityId = 6
+                            AbilityId = 6,
+                            Title = 14
                         },
                         new
                         {
                             Id = 15,
-                            AbilityId = 4
+                            AbilityId = 4,
+                            Title = 15
                         },
                         new
                         {
                             Id = 16,
-                            AbilityId = 2
+                            AbilityId = 2,
+                            Title = 16
                         },
                         new
                         {
                             Id = 17,
-                            AbilityId = 2
+                            AbilityId = 2,
+                            Title = 17
                         },
                         new
                         {
                             Id = 18,
-                            AbilityId = 5
+                            AbilityId = 5,
+                            Title = 18
                         });
                 });
 

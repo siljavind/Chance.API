@@ -13,7 +13,7 @@ public class Subrace
     public string Title { get; set; }
 
     [ForeignKey("IncreaseAbility")]
-    public AbilityType IncreaseAbilityId { get; set; }
+    public int IncreaseAbilityId { get; set; }
     public Ability IncreaseAbility { get; set; }
 
     public int IncreaseAbilityScore { get; set; }

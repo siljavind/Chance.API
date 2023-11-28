@@ -19,7 +19,7 @@ public class Race
     public Size Size { get; set; }
 
     [ForeignKey("IncreaseAbility")]
-    public AbilityType IncreaseAbilityId { get; set; }
+    public int IncreaseAbilityId { get; set; }
     public Ability IncreaseAbility { get; set; }
 
     [Required(ErrorMessage = "Ability increase score is required")]

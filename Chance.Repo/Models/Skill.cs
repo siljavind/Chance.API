@@ -5,14 +5,17 @@ using Chance.Repo.Interfaces;
 
 namespace Chance.Repo.Models;
 
-public class Skill
+public class Skill : IImmutable
 {
     [Key]
-    public SkillType Id { get; set; }
+    public int Id { get; set; }
+
+    [Required(ErrorMessage = "Title is required")]
+    public SkillType Title { get; set; }
 
     [Required]
     [ForeignKey("Ability")]
-    public AbilityType AbilityId { get; set; }
+    public int AbilityId { get; set; }
     public Ability Ability { get; set; }
 
     [JsonIgnore]

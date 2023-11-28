@@ -41,7 +41,7 @@ public class ChanceDbContext : DbContext
         modelBuilder.Entity<Ability>()
             .HasData(Enum.GetValues(typeof(AbilityType)) // Get all the values from the AbilityType enum
                 .Cast<AbilityType>() // Cast the values to AbilityType
-                .Select(ability => new Ability { Id = ability }) // Create a new Ability object for each value
+                .Select(ability => new Ability { Id = (int)ability, Title = ability }) // Create a new Ability object for each value
                 .ToArray() // Convert the IEnumerable to an array so it can be passed to HasData()
             );
 
@@ -71,10 +71,11 @@ public class ChanceDbContext : DbContext
         modelBuilder.Entity<Skill>().HasData(
         Enum.GetValues(typeof(SkillType))
             .Cast<SkillType>()
-            .Select(skillType => new Skill
+            .Select(skill => new Skill
             {
-                Id = skillType,
-                AbilityId = skillToAbility[skillType]
+                Id = (int)skill,
+                Title = skill,
+                AbilityId = (int)skillToAbility[skill]
             })
             .ToArray()
             );

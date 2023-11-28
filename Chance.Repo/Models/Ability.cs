@@ -5,10 +5,12 @@ using Chance.Repo.Interfaces;
 
 namespace Chance.Repo.Models;
 
-public class Ability
+public class Ability : IImmutable
 {
     [Key]
-    public AbilityType Id { get; set; }
+    public int Id { get; set; }
+
+    public AbilityType Title { get; set; }
 
     [JsonIgnore]
     public List<Class> Classes { get; set; }

@@ -17,6 +17,8 @@ namespace Chance.Repo.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -104,7 +106,9 @@ namespace Chance.Repo.Migrations
                 name: "Skills",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<int>(type: "int", nullable: false),
                     AbilityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -345,40 +349,40 @@ namespace Chance.Repo.Migrations
 
             migrationBuilder.InsertData(
                 table: "Abilities",
-                column: "Id",
-                values: new object[]
+                columns: new[] { "Id", "Title" },
+                values: new object[,]
                 {
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6
+                    { 1, 1 },
+                    { 2, 2 },
+                    { 3, 3 },
+                    { 4, 4 },
+                    { 5, 5 },
+                    { 6, 6 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Skills",
-                columns: new[] { "Id", "AbilityId" },
+                columns: new[] { "Id", "AbilityId", "Title" },
                 values: new object[,]
                 {
-                    { 1, 2 },
-                    { 2, 5 },
-                    { 3, 4 },
-                    { 4, 1 },
-                    { 5, 6 },
-                    { 6, 4 },
-                    { 7, 5 },
-                    { 8, 6 },
-                    { 9, 4 },
-                    { 10, 5 },
-                    { 11, 4 },
-                    { 12, 5 },
-                    { 13, 6 },
-                    { 14, 6 },
-                    { 15, 4 },
-                    { 16, 2 },
-                    { 17, 2 },
-                    { 18, 5 }
+                    { 1, 2, 1 },
+                    { 2, 5, 2 },
+                    { 3, 4, 3 },
+                    { 4, 1, 4 },
+                    { 5, 6, 5 },
+                    { 6, 4, 6 },
+                    { 7, 5, 7 },
+                    { 8, 6, 8 },
+                    { 9, 4, 9 },
+                    { 10, 5, 10 },
+                    { 11, 4, 11 },
+                    { 12, 5, 12 },
+                    { 13, 6, 13 },
+                    { 14, 6, 14 },
+                    { 15, 4, 15 },
+                    { 16, 2, 16 },
+                    { 17, 2, 17 },
+                    { 18, 5, 18 }
                 });
 
             migrationBuilder.CreateIndex(
