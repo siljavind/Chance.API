@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chance.Repo.Migrations
 {
     [DbContext(typeof(ChanceDbContext))]
-    [Migration("20231127103530_InitialCreate")]
+    [Migration("20231127133629_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -72,14 +72,7 @@ namespace Chance.Repo.Migrations
             modelBuilder.Entity("Chance.Repo.Models.Ability", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
@@ -88,33 +81,27 @@ namespace Chance.Repo.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Title = "Strength"
+                            Id = 1
                         },
                         new
                         {
-                            Id = 2,
-                            Title = "Dexterity"
+                            Id = 2
                         },
                         new
                         {
-                            Id = 3,
-                            Title = "Constitution"
+                            Id = 3
                         },
                         new
                         {
-                            Id = 4,
-                            Title = "Intelligence"
+                            Id = 4
                         },
                         new
                         {
-                            Id = 5,
-                            Title = "Wisdom"
+                            Id = 5
                         },
                         new
                         {
-                            Id = 6,
-                            Title = "Charisma"
+                            Id = 6
                         });
                 });
 
@@ -260,17 +247,10 @@ namespace Chance.Repo.Migrations
             modelBuilder.Entity("Chance.Repo.Models.Skill", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AbilityId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
@@ -282,110 +262,92 @@ namespace Chance.Repo.Migrations
                         new
                         {
                             Id = 1,
-                            AbilityId = 2,
-                            Title = "Acrobatics"
+                            AbilityId = 2
                         },
                         new
                         {
                             Id = 2,
-                            AbilityId = 5,
-                            Title = "AnimalHandling"
+                            AbilityId = 5
                         },
                         new
                         {
                             Id = 3,
-                            AbilityId = 4,
-                            Title = "Arcana"
+                            AbilityId = 4
                         },
                         new
                         {
                             Id = 4,
-                            AbilityId = 1,
-                            Title = "Athletics"
+                            AbilityId = 1
                         },
                         new
                         {
                             Id = 5,
-                            AbilityId = 6,
-                            Title = "Deception"
+                            AbilityId = 6
                         },
                         new
                         {
                             Id = 6,
-                            AbilityId = 4,
-                            Title = "History"
+                            AbilityId = 4
                         },
                         new
                         {
                             Id = 7,
-                            AbilityId = 5,
-                            Title = "Insight"
+                            AbilityId = 5
                         },
                         new
                         {
                             Id = 8,
-                            AbilityId = 6,
-                            Title = "Intimidation"
+                            AbilityId = 6
                         },
                         new
                         {
                             Id = 9,
-                            AbilityId = 4,
-                            Title = "Investigation"
+                            AbilityId = 4
                         },
                         new
                         {
                             Id = 10,
-                            AbilityId = 5,
-                            Title = "Medicine"
+                            AbilityId = 5
                         },
                         new
                         {
                             Id = 11,
-                            AbilityId = 4,
-                            Title = "Nature"
+                            AbilityId = 4
                         },
                         new
                         {
                             Id = 12,
-                            AbilityId = 5,
-                            Title = "Perception"
+                            AbilityId = 5
                         },
                         new
                         {
                             Id = 13,
-                            AbilityId = 6,
-                            Title = "Performance"
+                            AbilityId = 6
                         },
                         new
                         {
                             Id = 14,
-                            AbilityId = 6,
-                            Title = "Persuasion"
+                            AbilityId = 6
                         },
                         new
                         {
                             Id = 15,
-                            AbilityId = 4,
-                            Title = "Religion"
+                            AbilityId = 4
                         },
                         new
                         {
                             Id = 16,
-                            AbilityId = 2,
-                            Title = "SleightOfHand"
+                            AbilityId = 2
                         },
                         new
                         {
                             Id = 17,
-                            AbilityId = 2,
-                            Title = "Stealth"
+                            AbilityId = 2
                         },
                         new
                         {
                             Id = 18,
-                            AbilityId = 5,
-                            Title = "Survival"
+                            AbilityId = 5
                         });
                 });
 

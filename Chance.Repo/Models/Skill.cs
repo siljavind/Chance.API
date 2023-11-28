@@ -1,20 +1,18 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Chance.Repo.Interfaces;
 
 namespace Chance.Repo.Models;
 
 public class Skill
 {
     [Key]
-    public int Id { get; set; }
-
-    [Column(TypeName = "nvarchar(15)")]
-    public SkillType Title { get; set; }
+    public SkillType Id { get; set; }
 
     [Required]
     [ForeignKey("Ability")]
-    public int AbilityId { get; set; }
+    public AbilityType AbilityId { get; set; }
     public Ability Ability { get; set; }
 
     [JsonIgnore]

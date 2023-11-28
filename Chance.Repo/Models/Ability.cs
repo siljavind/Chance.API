@@ -1,17 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Chance.Repo.Interfaces;
 
 namespace Chance.Repo.Models;
 
 public class Ability
 {
     [Key]
-    public int Id { get; set; }
-
-    [Required(ErrorMessage = "Title is required")]
-    [Column(TypeName = "nvarchar(15)")]
-    public AbilityType Title { get; set; }
+    public AbilityType Id { get; set; }
 
     [JsonIgnore]
     public List<Class> Classes { get; set; }

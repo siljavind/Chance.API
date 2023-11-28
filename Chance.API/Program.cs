@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-//using Chance.Repo.Data;
 using Chance.Repo.Data;
-using Chance.Repo.Repos;
+using Chance.Repo.Repos.Immutables;
 using Chance.Repo.Interfaces;
 using Chance.Repo.Models;
 using System.Text.Json.Serialization;
@@ -17,8 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddScoped<IRepository<Ability>, AbilityRepo>();
-builder.Services.AddScoped<IRepository<Skill>, SkillRepo>();
+builder.Services.AddScoped<IImmutableRepo<Ability>, ImmutableRepo<Ability>>();
+builder.Services.AddScoped<IImmutableRepo<Skill>, ImmutableRepo<Skill>>();
 
 builder.Services.AddDbContext<ChanceDbContext>(options =>
 {
@@ -26,9 +25,9 @@ builder.Services.AddDbContext<ChanceDbContext>(options =>
     // To create ef migration use command: dotnet ef migrations add InitialCreate --project ../Chance.Repo
     // To update db use command: dotnet ef database update --project ../Chance.Repo
     // --project is added because the dbcontext is in the Repo layer
-
 });
 
+// Add JsonStringEnumConverter to convert enums to strings in json
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());

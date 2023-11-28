@@ -15,9 +15,9 @@ namespace Chance.API.Controllers
     [ApiController]
     public class AbilitiesController : ControllerBase
     {
-        IRepository<Ability> AbilityRepo { get; set; }
+        IImmutableRepo<Ability> AbilityRepo { get; set; }
 
-        public AbilitiesController(IRepository<Ability> abilityRepo)
+        public AbilitiesController(IImmutableRepo<Ability> abilityRepo)
         {
             AbilityRepo = abilityRepo;
         }

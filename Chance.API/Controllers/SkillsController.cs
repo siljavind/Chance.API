@@ -15,9 +15,9 @@ namespace Chance.API.Controllers
     [ApiController]
     public class SkillsController : ControllerBase
     {
-        IRepository<Skill> SkillRepo { get; set; }
+        IImmutableRepo<Skill> SkillRepo { get; set; }
 
-        public SkillsController(IRepository<Skill> skillRepo)
+        public SkillsController(IImmutableRepo<Skill> skillRepo)
         {
             SkillRepo = skillRepo;
         }

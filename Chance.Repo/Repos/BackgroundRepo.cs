@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chance.Repo.Repos
 {
-    public class BackgroundsRepo : IBackgroundsRepo
+    public class BackgroundRepo : IBackgroundRepo
     {
         ChanceDbContext _context;
 
-        public BackgroundsRepo(ChanceDbContext context)
+        public BackgroundRepo(ChanceDbContext context)
         {
             _context = context;
         }

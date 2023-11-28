@@ -17,8 +17,6 @@ namespace Chance.Repo.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(15)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,9 +104,7 @@ namespace Chance.Repo.Migrations
                 name: "Skills",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(15)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     AbilityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -349,40 +345,40 @@ namespace Chance.Repo.Migrations
 
             migrationBuilder.InsertData(
                 table: "Abilities",
-                columns: new[] { "Id", "Title" },
-                values: new object[,]
+                column: "Id",
+                values: new object[]
                 {
-                    { 1, "Strength" },
-                    { 2, "Dexterity" },
-                    { 3, "Constitution" },
-                    { 4, "Intelligence" },
-                    { 5, "Wisdom" },
-                    { 6, "Charisma" }
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6
                 });
 
             migrationBuilder.InsertData(
                 table: "Skills",
-                columns: new[] { "Id", "AbilityId", "Title" },
+                columns: new[] { "Id", "AbilityId" },
                 values: new object[,]
                 {
-                    { 1, 2, "Acrobatics" },
-                    { 2, 5, "AnimalHandling" },
-                    { 3, 4, "Arcana" },
-                    { 4, 1, "Athletics" },
-                    { 5, 6, "Deception" },
-                    { 6, 4, "History" },
-                    { 7, 5, "Insight" },
-                    { 8, 6, "Intimidation" },
-                    { 9, 4, "Investigation" },
-                    { 10, 5, "Medicine" },
-                    { 11, 4, "Nature" },
-                    { 12, 5, "Perception" },
-                    { 13, 6, "Performance" },
-                    { 14, 6, "Persuasion" },
-                    { 15, 4, "Religion" },
-                    { 16, 2, "SleightOfHand" },
-                    { 17, 2, "Stealth" },
-                    { 18, 5, "Survival" }
+                    { 1, 2 },
+                    { 2, 5 },
+                    { 3, 4 },
+                    { 4, 1 },
+                    { 5, 6 },
+                    { 6, 4 },
+                    { 7, 5 },
+                    { 8, 6 },
+                    { 9, 4 },
+                    { 10, 5 },
+                    { 11, 4 },
+                    { 12, 5 },
+                    { 13, 6 },
+                    { 14, 6 },
+                    { 15, 4 },
+                    { 16, 2 },
+                    { 17, 2 },
+                    { 18, 5 }
                 });
 
             migrationBuilder.CreateIndex(

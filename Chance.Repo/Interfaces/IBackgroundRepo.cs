@@ -2,7 +2,7 @@ using Chance.Repo.Models;
 
 namespace Chance.Repo.Interfaces;
 
-public interface IBackgroundsRepo
+public interface IBackgroundRepo
 {
     List<Background> GetAll();
     Background GetById(int id);

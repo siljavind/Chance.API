@@ -38,20 +38,12 @@ public class ChanceDbContext : DbContext
         };
 
         // Seed data for Abilities by looping through the AbilityType enum
-        modelBuilder.Entity<Ability>() // HasData() is a method that takes an array of objects and adds them to the database
-        .HasData(Enum.GetValues(typeof(AbilityType)) // Get all the values from the AbilityType enum
-            .Cast<AbilityType>() // Cast the values to AbilityType
-            .Select(ability => new Ability { Id = (int)ability, Title = ability }) // Create a new Ability object for each value
-            .ToArray() // Convert the IEnumerable to an array so it can be passed to HasData()
+        modelBuilder.Entity<Ability>()
+            .HasData(Enum.GetValues(typeof(AbilityType)) // Get all the values from the AbilityType enum
+                .Cast<AbilityType>() // Cast the values to AbilityType
+                .Select(ability => new Ability { Id = ability }) // Create a new Ability object for each value
+                .ToArray() // Convert the IEnumerable to an array so it can be passed to HasData()
             );
-
-        // modelBuilder.Entity<Ability>().HasData(
-        //     new Ability { AbilityType = AbilityType.Strength },
-        //     new Ability { AbilityType = AbilityType.Dexterity },
-        //     new Ability { AbilityType = AbilityType.Constitution },
-        //     new Ability { AbilityType = AbilityType.Intelligence },
-        //     new Ability { AbilityType = AbilityType.Wisdom },
-        //     new Ability { AbilityType = AbilityType.Charisma });
 
         // Seed data for Skills by looping through the SkillType enum
         // This is a dictionary that maps each SkillType to its corresponding AbilityType
@@ -81,9 +73,8 @@ public class ChanceDbContext : DbContext
             .Cast<SkillType>()
             .Select(skillType => new Skill
             {
-                Id = (int)skillType,
-                Title = skillType,
-                AbilityId = (int)skillToAbility[skillType]
+                Id = skillType,
+                AbilityId = skillToAbility[skillType]
             })
             .ToArray()
             );
