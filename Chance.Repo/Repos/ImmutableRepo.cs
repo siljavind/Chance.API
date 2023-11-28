@@ -3,7 +3,7 @@ using Chance.Repo.Models;
 using Chance.Repo.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chance.Repo.Repos.Immutables;
+namespace Chance.Repo.Repos;
 
 // Represents a generic repository for immutable entities.
 public class ImmutableRepo<T> : IImmutableRepo<T> where T : class, IImmutable

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Chance.Repo.Data;
-using Chance.Repo.Repos.Immutables;
+using Chance.Repo.Repos;
 using Chance.Repo.Interfaces;
 using Chance.Repo.Models;
 using System.Text.Json.Serialization;
@@ -18,6 +18,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IImmutableRepo<Ability>, ImmutableRepo<Ability>>();
 builder.Services.AddScoped<IImmutableRepo<Skill>, ImmutableRepo<Skill>>();
+builder.Services.AddScoped<IGenericRepo<Background>, GenericRepo<Background>>();
+builder.Services.AddScoped<IGenericRepo<Class>, GenericRepo<Class>>();
 
 builder.Services.AddDbContext<ChanceDbContext>(options =>
 {

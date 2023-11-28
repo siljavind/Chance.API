@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Chance.Repo.Data;
 using Chance.Repo.Models;
+using Chance.Repo.Interfaces;
 
 namespace Chance.API.Controllers
 {
@@ -14,95 +15,89 @@ namespace Chance.API.Controllers
     [ApiController]
     public class BackgroundsController : ControllerBase
     {
-        private readonly ChanceDbContext _context;
+        //IBackgroundRepo _backgroundRepo { get; set; }
+        IGenericRepo<Background> _backgroundRepo { get; set; }
+        //private readonly ChanceDbContext _context;
 
-        public BackgroundsController(ChanceDbContext context)
+        public BackgroundsController(IGenericRepo<Background> backgroundRepo)
         {
-            _context = context;
+            _backgroundRepo = backgroundRepo;
+            // _context = context;
         }
 
         // GET: api/Backgrounds
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Background>>> GetBackground()
-        {
-            return await _context.Backgrounds.ToListAsync();
-        }
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<Background>>> GetBackground() => await _backgroundRepo.GetAll();
 
         // GET: api/Backgrounds/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Background>> GetBackground(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Background>> GetBackground(int id) => await _backgroundRepo.GetById(id) is { } background ? Ok(background) : NotFound();
+        // {
+        //     var background = await _backgroundRepo.GetById(id);
+
+        //     if (background == null)
+        //     {
+        //         return NotFound();
+        //     }
+
+        //     // Return the background (Ok() is unnecessary, but it's good practice to be explicit)
+        //     return Ok(background);
+        // }
+
+        // POST: api/Backgrounds
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Background>> PostBackground(Background background)
         {
-            var background = await _context.Backgrounds.FindAsync(id);
-
-            if (background == null)
+            try
             {
-                return NotFound();
+                await _backgroundRepo.Create(background);
+                return CreatedAtAction("GetBackground", new { id = background.Id }, background);
             }
+            catch (Exception)
+            {
+                return Conflict("A background with the same title already exists.");
+            }
+            // var backgroundExists = await _backgroundRepo.TitleExists(background.Title);
 
-            return background;
+            // if (backgroundExists)
+            //     return Conflict("A background with the same title already exists.");
+
+            // await _backgroundRepo.Create(background);
+
+            // return CreatedAtAction("GetBackground", new { id = background.Id }, background);
         }
 
         // PUT: api/Backgrounds/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PutBackground(int id, Background background)
         {
             if (id != background.Id)
-            {
                 return BadRequest();
-            }
 
-            _context.Entry(background).State = EntityState.Modified;
+            var updatedBackground = await _backgroundRepo.Update(background);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BackgroundExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Backgrounds
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Background>> PostBackground(Background background)
-        {
-            _context.Backgrounds.Add(background);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetBackground", new { id = background.Id }, background);
+            return Ok(updatedBackground);
         }
 
         // DELETE: api/Backgrounds/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBackground(int id)
-        {
-            var background = await _context.Backgrounds.FindAsync(id);
-            if (background == null)
-            {
-                return NotFound();
-            }
-
-            _context.Backgrounds.Remove(background);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool BackgroundExists(int id)
-        {
-            return _context.Backgrounds.Any(e => e.Id == id);
-        }
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteBackground(int id) => await _backgroundRepo.Delete(id) != 0 ? NoContent() : NotFound();
     }
 }

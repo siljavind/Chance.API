@@ -4,9 +4,11 @@ namespace Chance.Repo.Interfaces;
 
 public interface IBackgroundRepo
 {
-    List<Background> GetAll();
-    Background GetById(int id);
-    Background Create(Background background);
-    Background Update(Background background);
-    int Delete(int id);
+    Task<List<Background>> GetAll();
+    Task<Background?> GetById(int id);
+    Task<Background> Create(Background background);
+    Task<Background> Update(Background background);
+    Task<int> Delete(int id);
+    Task<bool> Exists(string title);
+
 }
