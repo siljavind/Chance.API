@@ -1,12 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Chance.Repo.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chance.Repo.Models;
 
 [Index(nameof(Title), IsUnique = true)]
-public class Race
+public class Race : IGeneric
 {
     [Key]
     public int Id { get; set; }

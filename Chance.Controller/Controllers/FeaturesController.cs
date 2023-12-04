@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using Chance.Repo.Data;
 using Chance.Repo.Models;
 
-namespace Chance.API.Controllers
+namespace Chance.Controller.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RacesController : ControllerBase
+    public class FeaturesController : ControllerBase
     {
         private readonly ChanceDbContext _context;
 
-        public RacesController(ChanceDbContext context)
+        public FeaturesController(ChanceDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Races
+        // GET: api/Features
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Race>>> GetRace()
+        public async Task<ActionResult<IEnumerable<Feature>>> GetFeature()
         {
-            return await _context.Races.ToListAsync();
+            return await _context.Features.ToListAsync();
         }
 
-        // GET: api/Races/5
+        // GET: api/Features/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Race>> GetRace(int id)
+        public async Task<ActionResult<Feature>> GetFeature(int id)
         {
-            var race = await _context.Races.FindAsync(id);
+            var feature = await _context.Features.FindAsync(id);
 
-            if (race == null)
+            if (feature == null)
             {
                 return NotFound();
             }
 
-            return race;
+            return feature;
         }
 
-        // PUT: api/Races/5
+        // PUT: api/Features/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRace(int id, Race race)
+        public async Task<IActionResult> PutFeature(int id, Feature feature)
         {
-            if (id != race.Id)
+            if (id != feature.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(race).State = EntityState.Modified;
+            _context.Entry(feature).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace Chance.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RaceExists(id))
+                if (!FeatureExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace Chance.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Races
+        // POST: api/Features
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Race>> PostRace(Race race)
+        public async Task<ActionResult<Feature>> PostFeature(Feature feature)
         {
-            _context.Races.Add(race);
+            _context.Features.Add(feature);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRace", new { id = race.Id }, race);
+            return CreatedAtAction("GetFeature", new { id = feature.Id }, feature);
         }
 
-        // DELETE: api/Races/5
+        // DELETE: api/Features/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRace(int id)
+        public async Task<IActionResult> DeleteFeature(int id)
         {
-            var race = await _context.Races.FindAsync(id);
-            if (race == null)
+            var feature = await _context.Features.FindAsync(id);
+            if (feature == null)
             {
                 return NotFound();
             }
 
-            _context.Races.Remove(race);
+            _context.Features.Remove(feature);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool RaceExists(int id)
+        private bool FeatureExists(int id)
         {
-            return _context.Races.Any(e => e.Id == id);
+            return _context.Features.Any(e => e.Id == id);
         }
     }
 }

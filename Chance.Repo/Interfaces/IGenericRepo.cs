@@ -7,7 +7,7 @@ public interface IGenericRepo<T> where T : class
     Task<T> Create(T entity);
     Task<T> Update(T entity);
     Task<int> Delete(int id);
-    Task<bool> TitleExists(string title);
+    Task<bool> Exists(string title);
     Task<bool> Exists(int id);
 
 }

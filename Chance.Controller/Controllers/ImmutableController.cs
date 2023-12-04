@@ -1,0 +1,38 @@
+using Microsoft.AspNetCore.Mvc;
+using Chance.Repo.Models;
+using Chance.Repo.Interfaces;
+using Chance.Repo.Repos;
+
+namespace Chance.Controller.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public class ImmutableController<T> : ControllerBase where T : class, IImmutable
+    {
+        protected readonly IImmutableRepo<T> _repo;
+        public ImmutableController(IImmutableRepo<T> repo)
+        {
+            _repo = repo;
+        }
+
+        // GET: api/[controller]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public virtual async Task<ActionResult<IEnumerable<T>>> GetAll() =>
+            await _repo.GetAll() is { } entities ? Ok(entities) : NotFound();
+
+        // GET: api/[controller]/5
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public virtual async Task<ActionResult<T>> GetById(int id) =>
+            await _repo.GetById(id) is { } entity ? Ok(entity) : NotFound();
+
+
+        [HttpGet("IdExists/{id}")]
+        public async Task<ActionResult<bool>> Exists(int id) => await _repo.Exists(id) ? Ok(true) : NotFound(false);
+
+    }
+}
+

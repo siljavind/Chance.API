@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using Chance.Repo.Data;
 using Chance.Repo.Models;
 
-namespace Chance.API.Controllers
+namespace Chance.Controller.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SubracesController : ControllerBase
+    public class CharactersController : ControllerBase
     {
         private readonly ChanceDbContext _context;
 
-        public SubracesController(ChanceDbContext context)
+        public CharactersController(ChanceDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Subraces
+        // GET: api/Characters
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Subrace>>> GetSubrace()
+        public async Task<ActionResult<IEnumerable<Character>>> GetCharacter()
         {
-            return await _context.Subraces.ToListAsync();
+            return await _context.Characters.ToListAsync();
         }
 
-        // GET: api/Subraces/5
+        // GET: api/Characters/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Subrace>> GetSubrace(int id)
+        public async Task<ActionResult<Character>> GetCharacter(int id)
         {
-            var subrace = await _context.Subraces.FindAsync(id);
+            var character = await _context.Characters.FindAsync(id);
 
-            if (subrace == null)
+            if (character == null)
             {
                 return NotFound();
             }
 
-            return subrace;
+            return character;
         }
 
-        // PUT: api/Subraces/5
+        // PUT: api/Characters/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSubrace(int id, Subrace subrace)
+        public async Task<IActionResult> PutCharacter(int id, Character character)
         {
-            if (id != subrace.Id)
+            if (id != character.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(subrace).State = EntityState.Modified;
+            _context.Entry(character).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace Chance.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SubraceExists(id))
+                if (!CharacterExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace Chance.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Subraces
+        // POST: api/Characters
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Subrace>> PostSubrace(Subrace subrace)
+        public async Task<ActionResult<Character>> PostCharacter(Character character)
         {
-            _context.Subraces.Add(subrace);
+            _context.Characters.Add(character);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSubrace", new { id = subrace.Id }, subrace);
+            return CreatedAtAction("GetCharacter", new { id = character.Id }, character);
         }
 
-        // DELETE: api/Subraces/5
+        // DELETE: api/Characters/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSubrace(int id)
+        public async Task<IActionResult> DeleteCharacter(int id)
         {
-            var subrace = await _context.Subraces.FindAsync(id);
-            if (subrace == null)
+            var character = await _context.Characters.FindAsync(id);
+            if (character == null)
             {
                 return NotFound();
             }
 
-            _context.Subraces.Remove(subrace);
+            _context.Characters.Remove(character);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool SubraceExists(int id)
+        private bool CharacterExists(int id)
         {
-            return _context.Subraces.Any(e => e.Id == id);
+            return _context.Characters.Any(e => e.Id == id);
         }
     }
 }

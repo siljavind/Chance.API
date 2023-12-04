@@ -2,76 +2,111 @@ using Chance.Repo.Data;
 using Chance.Repo.Models;
 using Chance.Repo.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace Chance.Repo.Repos
+namespace Chance.Repo.Repos;
+
+public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
 {
-    public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
+    private readonly ChanceDbContext _context;
+    private readonly DbSet<T> _dbSet;
+
+    public GenericRepo(ChanceDbContext context)
     {
-        private readonly ChanceDbContext _context;
-        private readonly DbSet<T> _dbSet;
+        _context = context;
+        _dbSet = _context.Set<T>();
+    }
 
-        public GenericRepo(ChanceDbContext context)
+    public async Task<List<T>> GetAll() => await _dbSet.ToListAsync();
+
+    public async Task<T?> GetById(int id) => await _dbSet.SingleOrDefaultAsync(e => e.Id == id);
+
+    public async Task<T> Create(T entity)
+    {
+        // Add the entity to the DbSet (not async because it doesn't require a database call)
+        _dbSet.Add(entity);
+
+        try
         {
-            _context = context;
-            _dbSet = _context.Set<T>();
-        }
-
-        public async Task<List<T>> GetAll() => await _dbSet.ToListAsync();
-
-        public async Task<T?> GetById(int id) => await _dbSet.SingleOrDefaultAsync(e => e.Id == id);
-
-        public async Task<T> Create(T entity)
-        {
-            // Add the entity to the DbSet (not async because it doesn't require a database call)
-            _dbSet.Add(entity);
-
             // Save the changes asynchronously (async because it requires a database call)
             await _context.SaveChangesAsync();
 
             // Return the created entity
             return entity;
+
+        }
+        catch (DbUpdateException ex)
+        {
+            // If the entity already exists, throw an exception
+            if (ex.InnerException?.Message.Contains("duplicate key value") == true)
+                throw new InvalidOperationException();
+
+            // If the entity doesn't already exist, throw the original exception
+            throw;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw new Exception("Something went wrong while creating the entity");
         }
 
-        public async Task<Background> UpdateOrg(Background background)
-        {
-            // Set the state of the background entity to Modified
-            _context.Entry(background).State = EntityState.Modified;
+    }
 
-            // Save the changes asynchronously
+    public async Task<T> Update(T updatedEntity)
+    {
+        if (!await Exists(updatedEntity.Id))
+            throw new NotFoundException($"An entity with the id {updatedEntity.Id} could not be found.");
+
+        if (await Exists(updatedEntity.Title))
+            throw new ConflictException($"An entity with the title {updatedEntity.Title} already exists.");
+
+        try
+        {
+            // Get properties of updatedEntity's type
+            foreach (var prop in typeof(T).GetProperties())
+            {
+                // Ignore the Id property and any properties with the JsonIgnore attribute
+                if (prop.GetCustomAttribute<JsonIgnoreAttribute>() != null || prop.Name == "Id") continue;
+
+                // Get the value of the property from the updated entity
+                var updatedValue = prop.GetValue(updatedEntity);
+
+                // If the value not the default value for the property's type, mark the property as modified
+                if (!updatedValue.Equals(GetDefaultValue(prop.PropertyType)))
+                    _context.Entry(updatedEntity).Property(prop.Name).IsModified = true;
+
+            }
+            // Save changes to database
             await _context.SaveChangesAsync();
 
-            // Return the updated background entity
-            return background;
-        }
+            // Detach the entity from the context so I can call GetById() and get the full entity with both changed and unchanged properties
+            _context.Entry(updatedEntity).State = EntityState.Detached;
 
-        public async Task<T> Update(T entity)
+            // Get and return entity with updated values
+            return await GetById(updatedEntity.Id);
+        }
+        catch (Exception e)
         {
-            //TODO HANDLE NULLS
-            try
-            {
-                // Set the state of the background entity to Modified
-                _context.Entry(entity).State = EntityState.Modified;
-
-                // Save the changes asynchronously
-                await _context.SaveChangesAsync();
-
-                // Return the updated background entity
-                return entity;
-
-            }
-            catch (Exception e)
-            {
-                return e.Message as T; //TODO LOOK AT THIS
-            }
-
+            throw new Exception(e.Message);
         }
+    }
 
-        // Using the ExecuteDeleteAsync() instead of DeleteAsync() to delete and save changes in one step
-        public async Task<int> Delete(int id) => await _dbSet.Where(e => e.Id == id).ExecuteDeleteAsync();
+    // Using the ExecuteDeleteAsync() instead of DeleteAsync() to delete and save changes in one step
+    public async Task<int> Delete(int id) => await _dbSet.Where(e => e.Id == id).ExecuteDeleteAsync();
 
-        public async Task<bool> TitleExists(string title) => await _dbSet.AnyAsync(e => e.Title == title);
+    public async Task<bool> Exists(string title) => await _dbSet.AnyAsync(e => e.Title == title); //Change to Exixts, but diffrent parameter
 
-        public async Task<bool> Exists(int id) => await _dbSet.AnyAsync(e => e.Id == id);
+    public async Task<bool> Exists(int id) => await _dbSet.AnyAsync(e => e.Id == id);
 
+    private static object? GetDefaultValue(Type t)
+    {
+        // Since Activator.CreateInstance() instantiates a new object, I only want to use it for value types
+        if (t.IsValueType)
+            return Activator.CreateInstance(t);
+
+        // If t is not a value type, but instead a reference type, it returns null (which is the default value for reference types)
+        return null;
     }
 }

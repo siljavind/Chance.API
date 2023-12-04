@@ -8,51 +8,51 @@ using Microsoft.EntityFrameworkCore;
 using Chance.Repo.Data;
 using Chance.Repo.Models;
 
-namespace Chance.API.Controllers
+namespace Chance.Controller.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FeaturesController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly ChanceDbContext _context;
 
-        public FeaturesController(ChanceDbContext context)
+        public UsersController(ChanceDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Features
+        // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Feature>>> GetFeature()
+        public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
-            return await _context.Features.ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
-        // GET: api/Features/5
+        // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Feature>> GetFeature(int id)
+        public async Task<ActionResult<User>> GetUser(int id)
         {
-            var feature = await _context.Features.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
 
-            if (feature == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return feature;
+            return user;
         }
 
-        // PUT: api/Features/5
+        // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFeature(int id, Feature feature)
+        public async Task<IActionResult> PutUser(int id, User user)
         {
-            if (id != feature.Id)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(feature).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace Chance.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FeatureExists(id))
+                if (!UserExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace Chance.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Features
+        // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Feature>> PostFeature(Feature feature)
+        public async Task<ActionResult<User>> PostUser(User user)
         {
-            _context.Features.Add(feature);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFeature", new { id = feature.Id }, feature);
+            return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
-        // DELETE: api/Features/5
+        // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFeature(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            var feature = await _context.Features.FindAsync(id);
-            if (feature == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Features.Remove(feature);
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool FeatureExists(int id)
+        private bool UserExists(int id)
         {
-            return _context.Features.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }
