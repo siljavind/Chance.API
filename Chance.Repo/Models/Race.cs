@@ -22,6 +22,7 @@ public class Race : IGeneric
     public Size Size { get; set; }
 
     [ForeignKey("IncreaseAbility")]
+    [JsonIgnore]
     public int IncreaseAbilityId { get; set; }
     public Ability IncreaseAbility { get; set; }
 

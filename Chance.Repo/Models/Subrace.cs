@@ -15,12 +15,14 @@ public class Subrace
     public string Title { get; set; }
 
     [ForeignKey("IncreaseAbility")]
+    [JsonIgnore]
     public int IncreaseAbilityId { get; set; }
     public Ability IncreaseAbility { get; set; }
 
     public int IncreaseAbilityScore { get; set; }
 
     [ForeignKey("Race")]
+    [JsonIgnore]
     public int RaceId { get; set; }
     public Race Race { get; set; }
 

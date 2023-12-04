@@ -11,7 +11,6 @@ namespace Chance.Controller.Controllers
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class GenericController<T> : ControllerBase where T : class, IGeneric
     {
-
         private readonly IGenericRepo<T> _repo;
         public GenericController(IGenericRepo<T> repo)
         {
