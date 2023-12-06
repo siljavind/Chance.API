@@ -1,5 +1,4 @@
 using Chance.Repo.Data;
-using Chance.Repo.Models;
 using Chance.Repo.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -25,7 +24,6 @@ public class ImmutableRepo<T> : IImmutableRepo<T> where T : class, IImmutable
         await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundException($"{typeof(T).Name} with id {id} not found");
 
     public async Task<bool> Exists(int id) => await _dbSet.AnyAsync(e => e.Id == id);
-
 
     private IQueryable<T> IncludeProperties(params Expression<Func<T, object>>[] includeProperties)
     {

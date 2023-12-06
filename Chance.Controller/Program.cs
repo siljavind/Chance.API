@@ -29,6 +29,7 @@ builder.Services.AddScoped<IGenericRepo<Background>, GenericRepo<Background>>();
 builder.Services.AddScoped<IGenericRepo<Class>, GenericRepo<Class>>();
 builder.Services.AddScoped<IGenericRepo<Feature>, GenericRepo<Feature>>();
 builder.Services.AddScoped<IGenericRepo<Race>, GenericRepo<Race>>();
+builder.Services.AddScoped<IGenericRepo<Subrace>, GenericRepo<Subrace>>();
 
 builder.Services.AddDbContext<ChanceDbContext>(options =>
 {

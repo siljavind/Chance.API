@@ -1,5 +1,4 @@
 using Chance.Repo.Data;
-using Chance.Repo.Models;
 using Chance.Repo.Repos;
 using Chance.Repo.Interfaces;
 

@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Chance.Repo.Models;
 using Chance.Repo.Interfaces;
-using Chance.Repo.Repos;
 
 namespace Chance.Controller.Controllers
 {

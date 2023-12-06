@@ -1,5 +1,4 @@
 using Chance.Repo.Data;
-using Chance.Repo.Models;
 using Chance.Repo.Repos;
 using Chance.Repo.Interfaces;
 
@@ -9,16 +8,19 @@ public abstract class ImmutableRepoTests<T> where T : class, IImmutable
     public DbContextOptions<ChanceDbContext> options;
     protected ImmutableRepo<T> repo;
 
-    public ImmutableRepoTests()
+    public ImmutableRepoTests(List<T> entities)
     {
         options = new DbContextOptionsBuilder<ChanceDbContext>()
-        .UseInMemoryDatabase(databaseName: $"{typeof(T).Name}TestDb")
+        .UseInMemoryDatabase(databaseName: $"{typeof(T).Name}TestDb{Guid.NewGuid()}")
         .Options;
 
         Context = new ChanceDbContext(options);
 
         if (!Context.Set<T>().Any())
-            AddItems();
+        {
+            Context.Set<T>().AddRange(entities);
+            Context.SaveChanges();
+        }
 
         repo = new ImmutableRepo<T>(Context);
     }
@@ -27,7 +29,9 @@ public abstract class ImmutableRepoTests<T> where T : class, IImmutable
     public async Task GetAll_ShouldReturnAllEntities()
     {
         //Arrange
-        var expected = Context.Set<T>().ToList();
+        var context = new ChanceDbContext(options);
+        var repo = new ImmutableRepo<T>(context);
+        var expected = context.Set<T>().ToList();
 
         //Act
         var result = await repo.GetAll();
@@ -42,7 +46,9 @@ public abstract class ImmutableRepoTests<T> where T : class, IImmutable
     public async Task GetById_GivenValidId_ShouldReturnCorrectEntity()
     {
         //Arrange
-        var expected = Context.Set<T>().FirstOrDefault(a => a.Id == 1);
+        var context = new ChanceDbContext(options);
+        var repo = new ImmutableRepo<T>(context);
+        var expected = context.Set<T>().FirstOrDefault(a => a.Id == 1);
 
         //Act
         var result = await repo.GetById(1);
@@ -60,5 +66,4 @@ public abstract class ImmutableRepoTests<T> where T : class, IImmutable
         await Assert.ThrowsAsync<NotFoundException>(() => repo.GetById(0));
     }
 
-    public abstract void AddItems();
 }

@@ -14,7 +14,7 @@ public class User
     public string Username { get; set; }
 
     [Required(ErrorMessage = "Role is required")]
-    public Role Role { get; set; }
+    public Role Role { get; set; } = Role.User;
 
     [JsonIgnore]
     public List<Character> Characters { get; set; } = [];

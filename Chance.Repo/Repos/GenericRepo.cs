@@ -1,10 +1,8 @@
 using Chance.Repo.Data;
-using Chance.Repo.Models;
 using Chance.Repo.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq.Expressions;
 
 namespace Chance.Repo.Repos;
@@ -51,8 +49,7 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
-            throw new Exception("Something went wrong while creating the entity");
+            throw new Exception("Something went wrong while creating the entity", e);
         }
     }
 
