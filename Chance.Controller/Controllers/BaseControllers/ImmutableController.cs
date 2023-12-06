@@ -22,13 +22,13 @@ namespace Chance.Controller.Controllers
         // GET: api/[controller]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public virtual async Task<ActionResult<IEnumerable<T>>> GetAll() =>
+        public virtual async Task<ActionResult<IEnumerable<T>>> Get() =>
             await _repo.GetAll() is { } entities && entities.Count() != 0 ? Ok(entities) : NotFound();
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public virtual async Task<ActionResult<T>> GetById(int id) =>
+        public virtual async Task<ActionResult<T>> Get(int id) =>
             await _repo.GetById(id) is { } entity ? Ok(entity) : NotFound();
 
 

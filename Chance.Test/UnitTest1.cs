@@ -1,4 +1,4 @@
-namespace Chance.API;
+namespace Chance.Test;
 
 public class UnitTest1
 {
