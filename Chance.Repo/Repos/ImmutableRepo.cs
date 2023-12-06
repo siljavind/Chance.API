@@ -19,10 +19,10 @@ public class ImmutableRepo<T> : IImmutableRepo<T> where T : class, IImmutable
     }
 
     public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] includeProperties) =>
-        await IncludeProperties(includeProperties).ToListAsync();
+        await IncludeProperties(includeProperties).ToListAsync() ?? throw new NotFoundException($"{typeof(T).Name} not found");
 
     public async Task<T?> GetById(int id, params Expression<Func<T, object>>[] includeProperties) =>
-        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Id == id);
+        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundException($"{typeof(T).Name} with id {id} not found");
 
     public async Task<bool> Exists(int id) => await _dbSet.AnyAsync(e => e.Id == id);
 

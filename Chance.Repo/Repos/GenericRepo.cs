@@ -21,10 +21,10 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
     }
 
     public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] includeProperties) =>
-    await IncludeProperties(includeProperties).ToListAsync();
+    await IncludeProperties(includeProperties).ToListAsync() ?? throw new NotFoundException($"{typeof(T).Name} not found");
 
     public async Task<T?> GetById(int id, params Expression<Func<T, object>>[] includeProperties) =>
-        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Id == id);
+        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundException($"{typeof(T).Name} with id {id} not found");
 
     public async Task<T> Create(T entity)
     {
@@ -44,7 +44,7 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
         {
             // If the entity already exists, throw an exception
             if (ex.InnerException?.Message.Contains("duplicate key value") == true)
-                throw new InvalidOperationException();
+                throw new ConflictException();
 
             // If the entity doesn't already exist, throw the original exception
             throw;
@@ -96,9 +96,18 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
     }
 
     // Using the ExecuteDeleteAsync() instead of DeleteAsync() to delete and save changes in one step
-    public async Task<int> Delete(int id) => await _dbSet.Where(e => e.Id == id).ExecuteDeleteAsync();
+    public async Task<int> Delete(int id)
+    {
+        if (await Exists(id))
+        {
+            _dbSet.Remove(await _dbSet.SingleAsync(e => e.Id == id));
+            return await _context.SaveChangesAsync();
+        }
 
-    public async Task<bool> Exists(string title) => await _dbSet.AnyAsync(e => e.Title == title); //Change to Exixts, but diffrent parameter
+        throw new NotFoundException($"An entity with the id {id} could not be found.");
+    }
+
+    public async Task<bool> Exists(string title) => await _dbSet.AnyAsync(e => e.Title == title);
 
     public async Task<bool> Exists(int id) => await _dbSet.AnyAsync(e => e.Id == id);
 
