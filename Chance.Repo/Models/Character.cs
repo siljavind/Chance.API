@@ -20,30 +20,25 @@ public class Character
 
     public int XP { get; set; } = 0;
 
-    [ForeignKey("Race")]
-    [JsonIgnore]
     public int RaceId { get; set; }
-    public Race Race { get; set; }
+    [ForeignKey("RaceId")]
+    public Race? Race { get; set; }
 
-    [ForeignKey("Subrace")]
-    [JsonIgnore]
     public int SubraceId { get; set; }
-    public Subrace Subrace { get; set; }
+    [ForeignKey("SubraceId")]
+    public Subrace? Subrace { get; set; }
 
-    [ForeignKey("Class")]
-    [JsonIgnore]
     public int ClassId { get; set; }
-    public Class Class { get; set; }
+    [ForeignKey("ClassId")]
+    public Class? Class { get; set; }
 
-    [ForeignKey("Background")]
-    [JsonIgnore]
     public int BackgroundId { get; set; }
-    public Background Background { get; set; }
+    [ForeignKey("BackgroundId")]
+    public Background? Background { get; set; }
 
-    [ForeignKey("User")]
-    [JsonIgnore]
     public int UserId { get; set; }
-    public User User { get; set; }
+    [ForeignKey("UserId")]
+    public User? User { get; set; }
 
     [JsonIgnore]
     public List<Ability> Abilities { get; set; } = [];

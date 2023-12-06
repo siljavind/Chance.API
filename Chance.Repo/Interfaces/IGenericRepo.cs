@@ -1,9 +1,11 @@
+using System.Linq.Expressions;
+
 namespace Chance.Repo.Interfaces;
 
 public interface IGenericRepo<T> where T : class
 {
-    Task<List<T>> GetAll();
-    Task<T?> GetById(int id);
+    Task<List<T>> GetAll(params Expression<Func<T, object>>[] includeProperties);
+    Task<T?> GetById(int id, params Expression<Func<T, object>>[] includeProperties);
     Task<T> Create(T entity);
     Task<T> Update(T entity);
     Task<int> Delete(int id);

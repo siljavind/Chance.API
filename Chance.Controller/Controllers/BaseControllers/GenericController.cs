@@ -9,9 +9,9 @@ namespace Chance.Controller.Controllers
     [ApiController]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public class GenericController<T> : ControllerBase where T : class, IGeneric
+    public abstract class GenericController<T> : ControllerBase where T : class, IGeneric
     {
-        private readonly IGenericRepo<T> _repo;
+        protected readonly IGenericRepo<T> _repo;
         public GenericController(IGenericRepo<T> repo)
         {
             _repo = repo;
@@ -21,20 +21,20 @@ namespace Chance.Controller.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
-        public async Task<ActionResult<IEnumerable<T>>> GetAll() =>
-            await _repo.GetAll() is { } entities ? Ok(entities) : NotFound();
+        public virtual async Task<ActionResult<IEnumerable<T>>> GetAll() =>
+            await _repo.GetAll() is { } entities && entities.Count != 0 ? Ok(entities) : NotFound();
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<T>> GetById(int id) =>
+        public virtual async Task<ActionResult<T>> GetById(int id) =>
             await _repo.GetById(id) is { } entity ? Ok(entity) : NotFound();
 
         // PUT: api/[controller]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<ActionResult<T>> Post(T entity)
+        public virtual async Task<ActionResult<T>> Post(T entity)
         {
             if (await _repo.Exists(entity.Title))
                 return Conflict("An entity with the same title already exists.");

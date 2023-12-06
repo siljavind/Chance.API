@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Linq.Expressions;
 
 namespace Chance.Repo.Repos;
 
@@ -19,9 +20,11 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
         _dbSet = _context.Set<T>();
     }
 
-    public async Task<List<T>> GetAll() => await _dbSet.ToListAsync();
+    public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] includeProperties) =>
+    await IncludeProperties(includeProperties).ToListAsync();
 
-    public async Task<T?> GetById(int id) => await _dbSet.SingleOrDefaultAsync(e => e.Id == id);
+    public async Task<T?> GetById(int id, params Expression<Func<T, object>>[] includeProperties) =>
+        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Id == id);
 
     public async Task<T> Create(T entity)
     {
@@ -51,7 +54,6 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
             Console.WriteLine(e.Message);
             throw new Exception("Something went wrong while creating the entity");
         }
-
     }
 
     public async Task<T> Update(T updatedEntity)
@@ -108,5 +110,17 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
 
         // If t is not a value type, but instead a reference type, it returns null (which is the default value for reference types)
         return null;
+    }
+
+    private IQueryable<T> IncludeProperties(params Expression<Func<T, object>>[] includeProperties)
+    {
+        var query = _dbSet.AsQueryable();
+
+        foreach (var includeProperty in includeProperties)
+        {
+            query = query.Include(includeProperty);
+        }
+
+        return query;
     }
 }

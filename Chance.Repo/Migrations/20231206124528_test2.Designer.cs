@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chance.Repo.Migrations
 {
     [DbContext(typeof(ChanceDbContext))]
-    [Migration("20231128122222_UniqueFields")]
-    partial class UniqueFields
+    [Migration("20231206124528_test2")]
+    partial class test2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -242,7 +242,7 @@ namespace Chance.Repo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("IncreaseAbilityId")
+                    b.Property<int>("AbilityId")
                         .HasColumnType("int");
 
                     b.Property<int>("IncreaseAbilityScore")
@@ -260,7 +260,7 @@ namespace Chance.Repo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IncreaseAbilityId");
+                    b.HasIndex("AbilityId");
 
                     b.HasIndex("Title")
                         .IsUnique();
@@ -407,10 +407,10 @@ namespace Chance.Repo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("IncreaseAbilityId")
+                    b.Property<int>("AbilityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IncreaseAbilityScore")
+                    b.Property<int>("AbilityScore")
                         .HasColumnType("int");
 
                     b.Property<int>("RaceId")
@@ -422,7 +422,7 @@ namespace Chance.Repo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IncreaseAbilityId");
+                    b.HasIndex("AbilityId");
 
                     b.HasIndex("RaceId");
 
@@ -605,13 +605,13 @@ namespace Chance.Repo.Migrations
 
             modelBuilder.Entity("Chance.Repo.Models.Race", b =>
                 {
-                    b.HasOne("Chance.Repo.Models.Ability", "IncreaseAbility")
+                    b.HasOne("Chance.Repo.Models.Ability", "Ability")
                         .WithMany("Races")
-                        .HasForeignKey("IncreaseAbilityId")
+                        .HasForeignKey("AbilityId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("IncreaseAbility");
+                    b.Navigation("Ability");
                 });
 
             modelBuilder.Entity("Chance.Repo.Models.Skill", b =>
@@ -627,9 +627,9 @@ namespace Chance.Repo.Migrations
 
             modelBuilder.Entity("Chance.Repo.Models.Subrace", b =>
                 {
-                    b.HasOne("Chance.Repo.Models.Ability", "IncreaseAbility")
+                    b.HasOne("Chance.Repo.Models.Ability", "Ability")
                         .WithMany("Subraces")
-                        .HasForeignKey("IncreaseAbilityId")
+                        .HasForeignKey("AbilityId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -639,7 +639,7 @@ namespace Chance.Repo.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("IncreaseAbility");
+                    b.Navigation("Ability");
 
                     b.Navigation("Race");
                 });

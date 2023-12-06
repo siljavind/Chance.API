@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chance.Repo.Migrations
 {
     [DbContext(typeof(ChanceDbContext))]
-    [Migration("20231128090255_InitialCreate")]
+    [Migration("20231206123007_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -127,9 +127,12 @@ namespace Chance.Repo.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Backgrounds");
                 });
@@ -198,9 +201,12 @@ namespace Chance.Repo.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Classes");
                 });
@@ -218,9 +224,12 @@ namespace Chance.Repo.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Features");
                 });
@@ -233,7 +242,7 @@ namespace Chance.Repo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("IncreaseAbilityId")
+                    b.Property<int>("AbilityId")
                         .HasColumnType("int");
 
                     b.Property<int>("IncreaseAbilityScore")
@@ -247,11 +256,14 @@ namespace Chance.Repo.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IncreaseAbilityId");
+                    b.HasIndex("AbilityId");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Races");
                 });
@@ -395,10 +407,10 @@ namespace Chance.Repo.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("IncreaseAbilityId")
+                    b.Property<int>("AbilityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("IncreaseAbilityScore")
+                    b.Property<int>("AbilityScore")
                         .HasColumnType("int");
 
                     b.Property<int>("RaceId")
@@ -406,13 +418,16 @@ namespace Chance.Repo.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IncreaseAbilityId");
+                    b.HasIndex("AbilityId");
 
                     b.HasIndex("RaceId");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Subraces");
                 });
@@ -430,9 +445,12 @@ namespace Chance.Repo.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -587,13 +605,13 @@ namespace Chance.Repo.Migrations
 
             modelBuilder.Entity("Chance.Repo.Models.Race", b =>
                 {
-                    b.HasOne("Chance.Repo.Models.Ability", "IncreaseAbility")
+                    b.HasOne("Chance.Repo.Models.Ability", "Ability")
                         .WithMany("Races")
-                        .HasForeignKey("IncreaseAbilityId")
+                        .HasForeignKey("AbilityId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("IncreaseAbility");
+                    b.Navigation("Ability");
                 });
 
             modelBuilder.Entity("Chance.Repo.Models.Skill", b =>
@@ -609,9 +627,9 @@ namespace Chance.Repo.Migrations
 
             modelBuilder.Entity("Chance.Repo.Models.Subrace", b =>
                 {
-                    b.HasOne("Chance.Repo.Models.Ability", "IncreaseAbility")
+                    b.HasOne("Chance.Repo.Models.Ability", "Ability")
                         .WithMany("Subraces")
-                        .HasForeignKey("IncreaseAbilityId")
+                        .HasForeignKey("AbilityId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -621,7 +639,7 @@ namespace Chance.Repo.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("IncreaseAbility");
+                    b.Navigation("Ability");
 
                     b.Navigation("Race");
                 });

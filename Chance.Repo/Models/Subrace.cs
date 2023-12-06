@@ -14,17 +14,15 @@ public class Subrace
     [Required(ErrorMessage = "Title is required")]
     public string Title { get; set; }
 
-    [ForeignKey("IncreaseAbility")]
-    [JsonIgnore]
-    public int IncreaseAbilityId { get; set; }
-    public Ability IncreaseAbility { get; set; }
+    public int AbilityId { get; set; }
+    [ForeignKey("AbilityId")]
+    public Ability? Ability { get; set; }
 
-    public int IncreaseAbilityScore { get; set; }
+    public int AbilityScore { get; set; }
 
-    [ForeignKey("Race")]
-    [JsonIgnore]
     public int RaceId { get; set; }
-    public Race Race { get; set; }
+    [ForeignKey("RaceId")]
+    public Race? Race { get; set; }
 
     [JsonIgnore]
     public List<Feature> Features { get; set; } = [];

@@ -31,7 +31,7 @@ namespace Chance.Repo.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +44,7 @@ namespace Chance.Repo.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     SkillProficiencyCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -58,7 +58,7 @@ namespace Chance.Repo.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -72,7 +72,7 @@ namespace Chance.Repo.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -86,18 +86,18 @@ namespace Chance.Repo.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Speed = table.Column<int>(type: "int", nullable: false),
                     Size = table.Column<int>(type: "int", nullable: false),
-                    IncreaseAbilityId = table.Column<int>(type: "int", nullable: false),
+                    AbilityId = table.Column<int>(type: "int", nullable: false),
                     IncreaseAbilityScore = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Races", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Races_Abilities_IncreaseAbilityId",
-                        column: x => x.IncreaseAbilityId,
+                        name: "FK_Races_Abilities_AbilityId",
+                        column: x => x.AbilityId,
                         principalTable: "Abilities",
                         principalColumn: "Id");
                 });
@@ -193,17 +193,17 @@ namespace Chance.Repo.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IncreaseAbilityId = table.Column<int>(type: "int", nullable: false),
-                    IncreaseAbilityScore = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AbilityId = table.Column<int>(type: "int", nullable: false),
+                    AbilityScore = table.Column<int>(type: "int", nullable: false),
                     RaceId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subraces", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Subraces_Abilities_IncreaseAbilityId",
-                        column: x => x.IncreaseAbilityId,
+                        name: "FK_Subraces_Abilities_AbilityId",
+                        column: x => x.AbilityId,
                         principalTable: "Abilities",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -396,6 +396,12 @@ namespace Chance.Repo.Migrations
                 column: "ClassesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Backgrounds_Title",
+                table: "Backgrounds",
+                column: "Title",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BackgroundSkill_SkillsId",
                 table: "BackgroundSkill",
                 column: "SkillsId");
@@ -426,6 +432,12 @@ namespace Chance.Repo.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Classes_Title",
+                table: "Classes",
+                column: "Title",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClassFeature_FeaturesId",
                 table: "ClassFeature",
                 column: "FeaturesId");
@@ -441,14 +453,26 @@ namespace Chance.Repo.Migrations
                 column: "RacesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Features_Title",
+                table: "Features",
+                column: "Title",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FeatureSubrace_SubracesId",
                 table: "FeatureSubrace",
                 column: "SubracesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Races_IncreaseAbilityId",
+                name: "IX_Races_AbilityId",
                 table: "Races",
-                column: "IncreaseAbilityId");
+                column: "AbilityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Races_Title",
+                table: "Races",
+                column: "Title",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Skills_AbilityId",
@@ -456,14 +480,26 @@ namespace Chance.Repo.Migrations
                 column: "AbilityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Subraces_IncreaseAbilityId",
+                name: "IX_Subraces_AbilityId",
                 table: "Subraces",
-                column: "IncreaseAbilityId");
+                column: "AbilityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subraces_RaceId",
                 table: "Subraces",
                 column: "RaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subraces_Title",
+                table: "Subraces",
+                column: "Title",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
         }
 
         /// <inheritdoc />

@@ -9,7 +9,9 @@ namespace Chance.Controller.Controllers
     [ApiController]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public class ImmutableController<T> : ControllerBase where T : class, IImmutable
+
+    // Abstract class for all immutable controllers
+    public abstract class ImmutableController<T> : ControllerBase where T : class, IImmutable
     {
         protected readonly IImmutableRepo<T> _repo;
         public ImmutableController(IImmutableRepo<T> repo)
@@ -21,7 +23,7 @@ namespace Chance.Controller.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public virtual async Task<ActionResult<IEnumerable<T>>> GetAll() =>
-            await _repo.GetAll() is { } entities ? Ok(entities) : NotFound();
+            await _repo.GetAll() is { } entities && entities.Count() != 0 ? Ok(entities) : NotFound();
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]

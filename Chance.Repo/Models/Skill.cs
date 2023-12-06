@@ -14,9 +14,8 @@ public class Skill : IImmutable
     public SkillType Title { get; set; }
 
     [Required]
-    [ForeignKey("Ability")]
-    [JsonIgnore]
     public int AbilityId { get; set; }
+    [ForeignKey("AbilityId")]
     public Ability Ability { get; set; }
 
     [JsonIgnore]

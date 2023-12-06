@@ -21,10 +21,9 @@ public class Race : IGeneric
     [Required(ErrorMessage = "Size is required")]
     public Size Size { get; set; }
 
-    [ForeignKey("IncreaseAbility")]
-    [JsonIgnore]
-    public int IncreaseAbilityId { get; set; }
-    public Ability IncreaseAbility { get; set; }
+    public int AbilityId { get; set; }
+    [ForeignKey("AbilityId")]
+    public Ability? Ability { get; set; }
 
     [Required(ErrorMessage = "Ability increase score is required")]
     public int IncreaseAbilityScore { get; set; }

@@ -8,11 +8,6 @@ namespace Chance.Controller.Controllers
     [ApiController]
     public class BackgroundsController : GenericController<Background>
     {
-        IGenericRepo<Background> _backgroundRepo { get; set; }
-
-        public BackgroundsController(IGenericRepo<Background> repo) : base(repo)
-        {
-            _backgroundRepo = repo;
-        }
+        public BackgroundsController(IGenericRepo<Background> repo) : base(repo) { }
     }
 }

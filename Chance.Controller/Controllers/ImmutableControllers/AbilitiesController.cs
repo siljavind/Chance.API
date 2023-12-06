@@ -8,7 +8,6 @@ namespace Chance.Controller.Controllers
     [ApiController]
     public class AbilitiesController : ImmutableController<Ability>
     {
-
         public AbilitiesController(IImmutableRepo<Ability> repo) : base(repo) { }
 
         [HttpGet("alphabatized")]
