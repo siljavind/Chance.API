@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Chance.Repo.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Chance.Repo.Models;
 
@@ -17,8 +18,22 @@ public class User : IGeneric
     [Required(ErrorMessage = "Role is required")]
     public Role Role { get; set; } = Role.User;
 
+    public string PasswordHash { get; set; }
+
     [JsonIgnore]
     public List<Character> Characters { get; set; } = [];
+
+    public void SetPassword(string password)
+    {
+        var hasher = new PasswordHasher<User>();
+        PasswordHash = hasher.HashPassword(this, password);
+    }
+    public bool CheckPassword(string password)
+    {
+        var hasher = new PasswordHasher<User>();
+        var result = hasher.VerifyHashedPassword(this, PasswordHash, password);
+        return result == PasswordVerificationResult.Success;
+    }
 }
 
 public enum Role

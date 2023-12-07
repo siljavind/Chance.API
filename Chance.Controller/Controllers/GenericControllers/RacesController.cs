@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Chance.Repo.Models;
 using Chance.Repo.Interfaces;
+using System.Linq.Expressions;
 
 namespace Chance.Controller.Controllers
 {
@@ -10,12 +11,9 @@ namespace Chance.Controller.Controllers
     {
         public RacesController(IGenericRepo<Race> repo) : base(repo) { }
 
-        [HttpGet]
-        public override async Task<ActionResult<List<Race>>> Get() =>
-            await _repo.GetAll(r => r.Ability) is { } ability ? Ok(ability) : NotFound();
-
-        [HttpGet("{id}")]
-        public override async Task<ActionResult<Race>> Get(int id) =>
-            await _repo.GetById(id, r => r.Ability) is { } ability ? Ok(ability) : NotFound();
+        public override Expression<Func<Race, object>>[] GetIncludes()
+        {
+            return [r => r.Ability];
+        }
     }
 }

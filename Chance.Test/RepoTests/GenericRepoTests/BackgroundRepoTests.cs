@@ -18,11 +18,6 @@ namespace Chance.Test.RepoTests
         {
             return new Background { Title = "Acolyte" };
         }
-
-        // public override Background CreateDuplicate()
-        // {
-        //     return new Background { Title = "Charlatan" };
-        // }
     }
 }
 

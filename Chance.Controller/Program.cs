@@ -25,6 +25,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<IImmutableRepo<Ability>, ImmutableRepo<Ability>>();
 builder.Services.AddScoped<IImmutableRepo<Skill>, ImmutableRepo<Skill>>();
+
 builder.Services.AddScoped<IGenericRepo<Background>, GenericRepo<Background>>();
 builder.Services.AddScoped<IGenericRepo<Class>, GenericRepo<Class>>();
 builder.Services.AddScoped<IGenericRepo<Feature>, GenericRepo<Feature>>();

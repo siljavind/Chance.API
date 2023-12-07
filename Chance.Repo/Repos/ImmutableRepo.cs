@@ -25,6 +25,8 @@ public class ImmutableRepo<T> : IImmutableRepo<T> where T : class, IImmutable
 
     public async Task<bool> Exists(int id) => await _dbSet.AnyAsync(e => e.Id == id);
 
+    public async Task<int> Count() => await _dbSet.CountAsync();
+
     private IQueryable<T> IncludeProperties(params Expression<Func<T, object>>[] includeProperties)
     {
         var query = _dbSet.AsQueryable();

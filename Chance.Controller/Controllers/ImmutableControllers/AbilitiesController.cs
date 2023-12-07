@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Chance.Repo.Models;
 using Chance.Repo.Interfaces;
+using System.Linq.Expressions;
 
 namespace Chance.Controller.Controllers
 {
@@ -10,9 +11,10 @@ namespace Chance.Controller.Controllers
     {
         public AbilitiesController(IImmutableRepo<Ability> repo) : base(repo) { }
 
-        [HttpGet("alphabatized")]
+        [HttpGet("Alphabatized")]
         public async Task<IActionResult> GetAbilityAlphabatized() =>
             await _repo.GetAll() is { } abilities ? Ok(abilities.OrderBy(a => a.Title.ToString())) : NotFound();
+
     }
 }
 // public class AbilitiesController : ControllerBase

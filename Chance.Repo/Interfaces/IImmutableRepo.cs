@@ -17,5 +17,7 @@ public interface IImmutableRepo<T> where T : class
 
     // Checks if an entity of type T with the given id exists in the repository.
     Task<bool> Exists(int id);
+
+    Task<int> Count();
 }
 

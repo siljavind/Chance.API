@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Chance.Repo.Interfaces;
+using System.Linq.Expressions;
 
 namespace Chance.Controller.Controllers
 {
@@ -20,19 +21,19 @@ namespace Chance.Controller.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
         public virtual async Task<ActionResult<List<T>>> Get() =>
-            await _repo.GetAll() is { } entities && entities.Count != 0 ? Ok(entities) : NotFound();
+            await _repo.GetAll(GetIncludes()) is { } entities && entities.Count != 0 ? Ok(entities) : NotFound();
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public virtual async Task<ActionResult<T>> Get(int id) =>
-            await _repo.GetById(id) is { } entity ? Ok(entity) : NotFound();
+        public virtual async Task<ActionResult<T>> Get([FromQuery] int id) =>
+            await _repo.GetById(id, GetIncludes()) is { } entity ? Ok(entity) : NotFound();
 
         // PUT: api/[controller]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public virtual async Task<ActionResult<T>> Post(T entity)
+        public virtual async Task<ActionResult<T>> Post([FromBody] T entity)
         {
             try
             {
@@ -51,7 +52,7 @@ namespace Chance.Controller.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put(int id, T entity)
+        public async Task<IActionResult> Put([FromQuery] int id, [FromBody] T entity)
         {
             if (id != entity.Id)
                 return BadRequest();
@@ -84,6 +85,12 @@ namespace Chance.Controller.Controllers
 
         [HttpGet("IdExists/{id}")]
         public async Task<ActionResult<bool>> IdExists(int id) => await _repo.Exists(id) ? Ok(true) : NotFound(false);
+
+        [NonAction]
+        public virtual Expression<Func<T, object>>[] GetIncludes()
+        {
+            return [];
+        }
 
 
     }

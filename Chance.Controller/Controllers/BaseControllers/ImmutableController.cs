@@ -10,7 +10,6 @@ namespace Chance.Controller.Controllers
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-    // Abstract class for all immutable controllers
     public abstract class ImmutableController<T> : ControllerBase where T : class, IImmutable
     {
         protected readonly IImmutableRepo<T> _repo;
@@ -22,17 +21,27 @@ namespace Chance.Controller.Controllers
         // GET: api/[controller]
         [HttpGet]
         public virtual async Task<ActionResult<List<T>>> Get() =>
-            await _repo.GetAll() is { } entities && entities.Count != 0 ? Ok(entities) : NotFound();
+            await _repo.GetAll(GetIncludes()) is { } entities && entities.Count != 0 ? Ok(entities) : NotFound();
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
         public virtual async Task<ActionResult<T>> Get(int id) =>
-            await _repo.GetById(id) is { } entity ? Ok(entity) : NotFound();
+            await _repo.GetById(id, GetIncludes()) is { } entity ? Ok(entity) : NotFound();
 
 
         [HttpGet("IdExists/{id}")]
-        public async Task<ActionResult<bool>> Exists(int id) => await _repo.Exists(id) ? Ok(true) : NotFound(false);
+        public async Task<ActionResult<bool>> Exists(int id) =>
+            await _repo.Exists(id) ? Ok(true) : NotFound(false);
 
+        [HttpGet("Count")]
+        public async Task<ActionResult<int>> Count() =>
+            await _repo.Count();
+
+        [NonAction]
+        public virtual Expression<Func<T, object>>[] GetIncludes()
+        {
+            return [];
+        }
     }
 }
 
