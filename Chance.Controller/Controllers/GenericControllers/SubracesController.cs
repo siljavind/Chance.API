@@ -11,11 +11,11 @@ namespace Chance.Controller.Controllers
         public SubracesController(IGenericRepo<Subrace> repo) : base(repo) { }
 
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<Subrace>>> GetAll() =>
+        public override async Task<ActionResult<List<Subrace>>> Get() =>
             await _repo.GetAll(s => s.Ability, s => s.Race) is { } subraces ? Ok(subraces) : NotFound();
 
         [HttpGet("{id}")]
-        public override async Task<ActionResult<Subrace>> GetById(int id) =>
+        public override async Task<ActionResult<Subrace>> Get(int id) =>
             await _repo.GetById(id, s => s.Ability, s => s.Race) is { } subrace ? Ok(subrace) : NotFound();
 
 

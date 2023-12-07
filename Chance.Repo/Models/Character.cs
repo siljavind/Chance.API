@@ -1,16 +1,17 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Chance.Repo.Interfaces;
 
 namespace Chance.Repo.Models;
 
-public class Character
+public class Character : IGeneric
 {
     [Key]
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Name is required")]
-    public string Name { get; set; }
+    public string Title { get; set; }
 
     [Required(ErrorMessage = "Age is required")]
     public int Age { get; set; }

@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Chance.Repo.Interfaces;
+using System.Linq.Expressions;
 
 namespace Chance.Controller.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
     // Abstract class for all immutable controllers
@@ -19,13 +21,11 @@ namespace Chance.Controller.Controllers
 
         // GET: api/[controller]
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public virtual async Task<ActionResult<IEnumerable<T>>> Get() =>
-            await _repo.GetAll() is { } entities && entities.Count() != 0 ? Ok(entities) : NotFound();
+        public virtual async Task<ActionResult<List<T>>> Get() =>
+            await _repo.GetAll() is { } entities && entities.Count != 0 ? Ok(entities) : NotFound();
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public virtual async Task<ActionResult<T>> Get(int id) =>
             await _repo.GetById(id) is { } entity ? Ok(entity) : NotFound();
 

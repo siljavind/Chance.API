@@ -19,13 +19,13 @@ namespace Chance.Controller.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
-        public virtual async Task<ActionResult<IEnumerable<T>>> GetAll() =>
+        public virtual async Task<ActionResult<List<T>>> Get() =>
             await _repo.GetAll() is { } entities && entities.Count != 0 ? Ok(entities) : NotFound();
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public virtual async Task<ActionResult<T>> GetById(int id) =>
+        public virtual async Task<ActionResult<T>> Get(int id) =>
             await _repo.GetById(id) is { } entity ? Ok(entity) : NotFound();
 
         // PUT: api/[controller]
@@ -34,12 +34,16 @@ namespace Chance.Controller.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public virtual async Task<ActionResult<T>> Post(T entity)
         {
-            if (await _repo.Exists(entity.Title))
-                return Conflict("An entity with the same title already exists.");
+            try
+            {
+                var createdEntity = await _repo.Create(entity);
+                return CreatedAtAction(nameof(Get), new { id = createdEntity.Id }, createdEntity);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Something went wrong while creating the entity.");
+            }
 
-            await _repo.Create(entity);
-
-            return CreatedAtAction(nameof(GetById), new { id = entity.Id }, entity);
         }
 
         // PUT: api/[controller]/5
@@ -58,15 +62,15 @@ namespace Chance.Controller.Controllers
             }
             catch (NotFoundException e)
             {
-                return NotFound(e.Message);
+                return NotFound($"The {nameof(T)} could not be found.");
             }
             catch (ConflictException e)
             {
-                return Conflict(e.Message);
+                return Conflict($"A {nameof(T)} with the same title already exists.");
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(500, "Something went wrong while updating the entity.");
             }
         }
 

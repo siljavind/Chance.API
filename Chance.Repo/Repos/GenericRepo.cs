@@ -1,5 +1,6 @@
 using Chance.Repo.Data;
 using Chance.Repo.Interfaces;
+using Chance.Repo.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using System.Reflection;
@@ -19,47 +20,34 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
     }
 
     public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] includeProperties) =>
-    await IncludeProperties(includeProperties).ToListAsync() ?? throw new NotFoundException($"{typeof(T).Name} not found");
+        await IncludeProperties(includeProperties).ToListAsync() ?? throw new NotFoundException();
 
     public async Task<T?> GetById(int id, params Expression<Func<T, object>>[] includeProperties) =>
-        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundException($"{typeof(T).Name} with id {id} not found");
+        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundException();
 
     public async Task<T> Create(T entity)
     {
-        // Add the entity to the DbSet (not async because it doesn't require a database call)
-        _dbSet.Add(entity);
-
         try
         {
+            // Add the entity to the DbSet (not async because it doesn't require a database call)
+            _dbSet.Add(entity);
+
             // Save the changes asynchronously (async because it requires a database call)
             await _context.SaveChangesAsync();
 
             // Return the created entity
-            return entity;
-
+            return await GetById(entity.Id);
         }
-        catch (DbUpdateException ex)
+        catch (DbUpdateException e) when (e.InnerException?.Message.Contains("duplicate key value violates unique constraint") == true)
         {
-            // If the entity already exists, throw an exception
-            if (ex.InnerException?.Message.Contains("duplicate key value") == true)
-                throw new ConflictException();
-
-            // If the entity doesn't already exist, throw the original exception
-            throw;
-        }
-        catch (Exception e)
-        {
-            throw new Exception("Something went wrong while creating the entity", e);
+            throw new ConflictException();
         }
     }
 
     public async Task<T> Update(T updatedEntity)
     {
         if (!await Exists(updatedEntity.Id))
-            throw new NotFoundException($"An entity with the id {updatedEntity.Id} could not be found.");
-
-        if (await Exists(updatedEntity.Title))
-            throw new ConflictException($"An entity with the title {updatedEntity.Title} already exists.");
+            throw new NotFoundException();
 
         try
         {
@@ -86,9 +74,9 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
             // Get and return entity with updated values
             return await GetById(updatedEntity.Id);
         }
-        catch (Exception e)
+        catch (DbUpdateException e) when (e.InnerException?.Message.Contains("duplicate key value violates unique constraint") == true)
         {
-            throw new Exception(e.Message);
+            throw new ConflictException();
         }
     }
 
