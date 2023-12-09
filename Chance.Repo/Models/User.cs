@@ -18,7 +18,7 @@ public class User : IGeneric
     [Required(ErrorMessage = "Role is required")]
     public Role Role { get; set; } = Role.User;
 
-    public string PasswordHash { get; set; }
+    public string Password { get; set; }
 
     [JsonIgnore]
     public List<Character> Characters { get; set; } = [];
@@ -26,12 +26,12 @@ public class User : IGeneric
     public void SetPassword(string password)
     {
         var hasher = new PasswordHasher<User>();
-        PasswordHash = hasher.HashPassword(this, password);
+        Password = hasher.HashPassword(this, password);
     }
     public bool CheckPassword(string password)
     {
         var hasher = new PasswordHasher<User>();
-        var result = hasher.VerifyHashedPassword(this, PasswordHash, password);
+        var result = hasher.VerifyHashedPassword(this, Password, password);
         return result == PasswordVerificationResult.Success;
     }
 }

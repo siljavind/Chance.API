@@ -20,10 +20,13 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
     }
 
     public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] includeProperties) =>
-        await IncludeProperties(includeProperties).ToListAsync() ?? throw new NotFoundException();
+        await IncludeProperties(includeProperties).ToListAsync();
 
     public async Task<T?> GetById(int id, params Expression<Func<T, object>>[] includeProperties) =>
-        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Id == id) ?? throw new NotFoundException();
+        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Id == id);
+
+    public async Task<T?> GetByTitle(string title, params Expression<Func<T, object>>[] includeProperties) =>
+        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Title == title);
 
     public async Task<T> Create(T entity)
     {

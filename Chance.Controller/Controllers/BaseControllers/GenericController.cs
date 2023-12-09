@@ -29,6 +29,11 @@ namespace Chance.Controller.Controllers
         public virtual async Task<ActionResult<T>> Get([FromQuery] int id) =>
             await _repo.GetById(id, GetIncludes()) is { } entity ? Ok(entity) : NotFound();
 
+        [HttpGet("{title}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public virtual async Task<ActionResult<T>> Get([FromQuery] string title) =>
+            await _repo.GetByTitle(title, GetIncludes()) is { } entity ? Ok(entity) : NotFound();
+
         // PUT: api/[controller]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]

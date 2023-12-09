@@ -13,7 +13,7 @@ public interface IImmutableRepo<T> where T : class
     Task<List<T>> GetAll(params Expression<Func<T, object>>[] includeProperties);
 
     // Retrieves a single entity of type T with the given id from the repository.
-    Task<T> GetById(int id, params Expression<Func<T, object>>[] includeProperties);
+    Task<T?> GetById(int id, params Expression<Func<T, object>>[] includeProperties);
 
     // Checks if an entity of type T with the given id exists in the repository.
     Task<bool> Exists(int id);
