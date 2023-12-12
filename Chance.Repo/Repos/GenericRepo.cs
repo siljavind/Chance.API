@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using System.Reflection;
 using System.Linq.Expressions;
+using Microsoft.Data.SqlClient;
 
 namespace Chance.Repo.Repos;
 
@@ -65,9 +66,13 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
             // Return the created entity
             return await GetById(entity.Id);
         }
-        catch (DbUpdateException e) when (e.InnerException?.Message.Contains("duplicate key value violates unique constraint") == true)
+        catch (DbUpdateException e)
         {
             throw new ConflictException();
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
         }
     }
 

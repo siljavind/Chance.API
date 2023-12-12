@@ -75,7 +75,11 @@ namespace Chance.Controller.Controllers
             }
             catch (ConflictException e)
             {
-                return Conflict();
+                return Conflict($"{typeof(T).Name} already exists.");
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
             }
 
         }
@@ -87,8 +91,8 @@ namespace Chance.Controller.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<T>> Put([FromQuery] int id, [FromBody] T entity)
         {
-            if (id != entity.Id)
-                return BadRequest();
+            // if (id != entity.Id) //TODO Add check if user is admin and skip check if so
+            //     return BadRequest();
 
             try
             {
@@ -96,11 +100,11 @@ namespace Chance.Controller.Controllers
             }
             catch (NotFoundException e)
             {
-                return NotFound($"The {nameof(T)} could not be found.");
+                return NotFound($"{typeof(T).Name} could not be found.");
             }
             catch (ConflictException e)
             {
-                return Conflict($"A {nameof(T)} with the same title already exists.");
+                return Conflict($"{typeof(T).Name} already exists.");
             }
             catch (Exception e)
             {
