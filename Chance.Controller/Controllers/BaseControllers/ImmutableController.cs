@@ -20,13 +20,31 @@ namespace Chance.Controller.Controllers
 
         // GET: api/[controller]
         [HttpGet]
-        public virtual async Task<ActionResult<List<T>>> Get() =>
-            await _repo.GetAll(GetIncludes()) is { } entities && entities.Count != 0 ? Ok(entities) : NotFound();
+        public virtual async Task<ActionResult<List<T>>> Get()
+        {
+            try
+            {
+                return Ok(await _repo.GetAll(GetIncludes()));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+        }
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
-        public virtual async Task<ActionResult<T>> Get(int id) =>
-            await _repo.GetById(id, GetIncludes()) is { } entity ? Ok(entity) : NotFound();
+        public virtual async Task<ActionResult<T>> Get(int id)
+        {
+            try
+            {
+                return Ok(await _repo.GetById(id, GetIncludes()));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+        }
 
 
         [HttpGet("IdExists/{id}")]

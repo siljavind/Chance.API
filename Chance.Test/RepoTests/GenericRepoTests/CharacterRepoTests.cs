@@ -1,6 +1,4 @@
-using System.Security.Cryptography;
 using Chance.Repo.Models;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace Chance.Test.RepoTests
 {

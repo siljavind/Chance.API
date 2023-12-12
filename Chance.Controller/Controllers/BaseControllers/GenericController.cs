@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Chance.Repo.Interfaces;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Chance.Controller.Controllers
 {
@@ -20,19 +21,46 @@ namespace Chance.Controller.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
-        public virtual async Task<ActionResult<List<T>>> Get() =>
-            await _repo.GetAll(GetIncludes()) is { } entities && entities.Count != 0 ? Ok(entities) : NotFound();
+        public virtual async Task<ActionResult<List<T>>> Get()
+        {
+            try
+            {
+                return Ok(await _repo.GetAll(GetIncludes()));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+        }
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public virtual async Task<ActionResult<T>> Get([FromQuery] int id) =>
-            await _repo.GetById(id, GetIncludes()) is { } entity ? Ok(entity) : NotFound();
+        public virtual async Task<ActionResult<T>> Get([FromQuery] int id)
+        {
+            try
+            {
+                return Ok(await _repo.GetById(id, GetIncludes()));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+        }
 
         [HttpGet("{title}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public virtual async Task<ActionResult<T>> Get([FromQuery] string title) =>
-            await _repo.GetByTitle(title, GetIncludes()) is { } entity ? Ok(entity) : NotFound();
+        public virtual async Task<ActionResult<T>> Get([FromQuery] string title)
+        {
+            try
+            {
+                return Ok(await _repo.GetByTitle(title, GetIncludes()));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+        }
 
         // PUT: api/[controller]
         [HttpPost]
@@ -45,9 +73,9 @@ namespace Chance.Controller.Controllers
                 var createdEntity = await _repo.Create(entity);
                 return CreatedAtAction(nameof(Get), new { id = createdEntity.Id }, createdEntity);
             }
-            catch (Exception)
+            catch (ConflictException e)
             {
-                return StatusCode(500, "Something went wrong while creating the entity.");
+                return Conflict();
             }
 
         }
@@ -57,7 +85,7 @@ namespace Chance.Controller.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put([FromQuery] int id, [FromBody] T entity)
+        public async Task<ActionResult<T>> Put([FromQuery] int id, [FromBody] T entity)
         {
             if (id != entity.Id)
                 return BadRequest();
@@ -96,8 +124,6 @@ namespace Chance.Controller.Controllers
         {
             return [];
         }
-
-
     }
 }
 

@@ -1,6 +1,5 @@
 using Chance.Repo.Data;
 using Chance.Repo.Interfaces;
-using Chance.Repo.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using System.Reflection;
@@ -19,14 +18,39 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
         _dbSet = _context.Set<T>();
     }
 
-    public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] includeProperties) =>
-        await IncludeProperties(includeProperties).ToListAsync();
+    public async Task<List<T>> GetAll(params Expression<Func<T, object>>[] includeProperties)
+    {
+        var entities = await IncludeProperties(includeProperties).ToListAsync();
 
-    public async Task<T?> GetById(int id, params Expression<Func<T, object>>[] includeProperties) =>
-        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Id == id);
+        if (entities.Count > 0)
+            return entities;
+        else
+            throw new NotFoundException();
+    }
 
-    public async Task<T?> GetByTitle(string title, params Expression<Func<T, object>>[] includeProperties) =>
-        await IncludeProperties(includeProperties).SingleOrDefaultAsync(e => e.Title == title);
+    public async Task<T?> GetById(int id, params Expression<Func<T, object>>[] includeProperties)
+    {
+        try
+        {
+            return await IncludeProperties(includeProperties).SingleAsync(e => e.Id == id);
+        }
+        catch (InvalidOperationException)
+        {
+            throw new NotFoundException();
+        }
+    }
+
+    public async Task<T?> GetByTitle(string title, params Expression<Func<T, object>>[] includeProperties)
+    {
+        try
+        {
+            return await IncludeProperties(includeProperties).SingleAsync(e => e.Title == title);
+        }
+        catch (InvalidOperationException)
+        {
+            throw new NotFoundException();
+        }
+    }
 
     public async Task<T> Create(T entity)
     {
