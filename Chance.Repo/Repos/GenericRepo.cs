@@ -66,7 +66,7 @@ public class GenericRepo<T> : IGenericRepo<T> where T : class, IGeneric
             // Return the created entity
             return await GetById(entity.Id);
         }
-        catch (DbUpdateException e)
+        catch (DbUpdateException e) when ((e.InnerException as SqlException)?.Number == 2627 || (e.InnerException as SqlException)?.Number == 2601)
         {
             throw new ConflictException();
         }
